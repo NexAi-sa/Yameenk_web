@@ -20,6 +20,14 @@
   "login_errorOtpLength": "Enter the 6-digit code",
   "login_errorOtpInvalid": "Invalid code. Try again.",
 
+  "register_title": "Create Account",
+  "register_emailHint": "Email",
+  "register_haveAccount": "Already have an account?",
+  "register_loginLink": "Sign In",
+  "register_fillAllFields": "Please fill in all fields",
+  "login_noAccount": "Don't have an account?",
+  "register_newAccount": "Create Account",
+
   "dashboard_greeting": "Hello 👋",
   "dashboard_subtitle": "Patient health monitoring",
   "dashboard_recordReading": "Record Reading",
@@ -47,7 +55,7 @@
   "common_kg": "kg",
   "common_sar": "SAR",
 
-  "chat_title": "Health Chat",
+  "chat_title": "Ameen — Your Health Assistant",
   "chat_errorLoad": "Failed to load conversation",
   "chat_errorDetail": "Check your internet connection",
   "chat_inputHint": "Ask about your parent...",
@@ -227,13 +235,19 @@
   "plus_yearly": "Annual",
   "plus_monthly": "Monthly",
   "plus_yearlyPrice": "249",
-  "plus_monthlyPrice": "29",
+  "plus_monthlyPrice": "249",
   "plus_perYear": "SAR / year",
   "plus_perMonth": "SAR / month",
   "plus_save29": "Save 29%",
   "plus_subscribe": "Subscribe Now",
   "plus_terms": "By subscribing, you agree to the Terms of Service and Privacy Policy.",
   "plus_welcomeMsg": "Welcome to Yameenak Plus! 🎉",
+  "plus_termsLink": "Terms & Conditions",
+  "plus_privacyLink": "Privacy Policy",
+  "plus_appleInfo": "Important Information",
+  "plus_autoRenew": "Subscription automatically renews monthly unless cancelled at least 24 hours before the end of the current period.",
+  "plus_cancelInfo": "You can cancel your subscription at any time from your Apple ID settings.",
+  "plus_noRefund": "No refund is provided for any unused portion of the current subscription period.",
 
   "gate_exclusive": "Exclusive to Yameenak Plus",
   "gate_subscribeFor": "Subscribe to Yameenak Plus to access {feature}\nand all premium features",
@@ -255,7 +269,7 @@
   "disclaimer_accept": "I have read and agree",
   "disclaimer_footer": "By using the app, you agree that Yameenak is a monitoring tool only and is not a substitute for medical care.",
 
-  "chat_aiDisclaimer": "⚕️ Atheer is a smart health assistant, not a doctor. It does not prescribe medications. Always consult your doctor for medical decisions.",
+  "chat_aiDisclaimer": "⚕️ Ameen is a smart health assistant, not a doctor. It does not prescribe medications. Always consult your doctor for medical decisions.",
 
   "privacy_noDataSelling": "Your health data is never sold or shared with third parties for advertising or commercial purposes.",
 

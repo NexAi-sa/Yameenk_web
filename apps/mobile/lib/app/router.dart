@@ -5,12 +5,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../features/auth/presentation/cubit/auth_cubit.dart';
 import '../features/auth/presentation/cubit/auth_state.dart';
 import '../features/auth/presentation/pages/welcome_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
+import '../features/auth/presentation/pages/login_page.dart';
 import '../features/family/presentation/pages/family_dashboard_page.dart';
 import '../features/chat/presentation/pages/chat_page.dart';
+import '../features/chat/data/datasources/chat_remote_datasource.dart';
+import '../features/chat/data/repositories/chat_repository_impl.dart';
+import '../features/chat/domain/usecases/send_message_usecase.dart';
+import '../features/chat/presentation/cubit/chat_cubit.dart';
+import '../core/network/dio_client.dart';
 import '../screens/patient/medical_profile_screen.dart';
 import '../screens/patient/profile_setup_screen.dart';
 import '../screens/patient/health_reports_screen.dart';
@@ -29,6 +36,7 @@ const kConsentCompletedSpKey = 'pdpl_consent_completed_sp';
 const _publicPaths = <String>{
   '/welcome',
   '/register',
+  '/login',
   '/medical-disclaimer',
   '/consent',
 };
@@ -36,7 +44,7 @@ const _publicPaths = <String>{
 class AppRouter {
   late final GoRouter router;
 
-  AppRouter({required AuthCubit authCubit}) {
+  AppRouter({required AuthCubit authCubit, required DioClient dioClient}) {
     router = GoRouter(
       initialLocation: '/welcome',
       refreshListenable: GoRouterRefreshStream(authCubit.stream),
@@ -66,7 +74,7 @@ class AppRouter {
 
         // Convenience: send authenticated+consented users past login/register.
         if (isAuthenticated &&
-            (location == '/welcome' || location == '/register')) {
+            (location == '/welcome' || location == '/register' || location == '/login')) {
           return '/family';
         }
 
@@ -88,6 +96,10 @@ class AppRouter {
           builder: (context, state) => const RegisterPage(),
         ),
         GoRoute(
+          path: '/login',
+          builder: (context, state) => const LoginPage(),
+        ),
+        GoRoute(
           path: '/consent',
           builder: (context, state) => const ConsentScreen(),
         ),
@@ -107,7 +119,21 @@ class AppRouter {
             ),
             GoRoute(
               path: '/family/chat',
-              builder: (context, state) => const ChatPage(),
+              builder: (context, state) {
+                final authState = authCubit.state;
+                final patientId = authState is AuthAuthenticated
+                    ? authState.patientId
+                    : '';
+                final chatDataSource = ChatRemoteDataSourceImpl(dioClient);
+                final chatRepo = ChatRepositoryImpl(chatDataSource);
+                return BlocProvider(
+                  create: (_) => ChatCubit(
+                    sendMessage: SendMessageUseCase(chatRepo),
+                    patientId: patientId,
+                  ),
+                  child: const ChatPage(),
+                );
+              },
             ),
             GoRoute(
               path: '/patient/profile',

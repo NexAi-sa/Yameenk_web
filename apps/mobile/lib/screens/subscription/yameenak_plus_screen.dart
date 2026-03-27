@@ -1,42 +1,21 @@
-/// شاشة اشتراك يمينك بلس — مطابقة لتصميم Stitch AI
+/// شاشة اشتراك يمينك بلس — نسخة مضغوطة لسكرين شوت أبل ستور
 library;
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../app/theme.dart';
-import '../../core/responsive_scaffold.dart';
 import '../../main.dart';
 import '../../features/subscription/presentation/cubit/subscription_cubit.dart';
 import '../../features/subscription/presentation/cubit/subscription_state.dart';
 
-class YameenakPlusScreen extends StatefulWidget {
+// ─── URLs ───
+const _termsUrl = 'https://yameenak.com/terms';
+const _privacyUrl = 'https://yameenak.com/privacy';
+
+class YameenakPlusScreen extends StatelessWidget {
   const YameenakPlusScreen({super.key});
-
-  @override
-  State<YameenakPlusScreen> createState() => _YameenakPlusScreenState();
-}
-
-class _YameenakPlusScreenState extends State<YameenakPlusScreen> {
-  SubscriptionPlan _selectedPlan = SubscriptionPlan.yearlyPlus;
-
-  Future<void> _subscribe() async {
-    final successMsg = context.l10n.plus_welcomeMsg;
-    final success =
-        await context.read<SubscriptionCubit>().subscribe(_selectedPlan);
-    if (!mounted) return;
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(successMsg, textAlign: TextAlign.right),
-          backgroundColor: AppColors.success,
-          behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-      );
-      Navigator.of(context).pop();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,170 +24,232 @@ class _YameenakPlusScreenState extends State<YameenakPlusScreen> {
     return BlocBuilder<SubscriptionCubit, SubscriptionState>(
       builder: (context, subState) {
         return Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              // ──── Header gradient ────
-              SliverToBoxAdapter(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    gradient: AppGradients.loginBackground,
-                  ),
-                  padding: EdgeInsets.fromLTRB(
-                    AppSpacing.lg,
-                    MediaQuery.of(context).padding.top + AppSpacing.lg,
-                    AppSpacing.lg,
-                    AppSpacing.xxl,
-                  ),
-                  child: Column(
-                    children: [
-                      // Close button
-                      Align(
-                        alignment: AlignmentDirectional.centerEnd,
-                        child: IconButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          icon: const Icon(Icons.close_rounded,
-                              color: Colors.white),
-                          style: IconButton.styleFrom(
-                            backgroundColor:
-                                Colors.white.withValues(alpha: 0.15),
+          body: SafeArea(
+            top: false,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // ──── Header gradient (مضغوط) ────
+                  Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      gradient: AppGradients.loginBackground,
+                    ),
+                    padding: EdgeInsets.fromLTRB(
+                      AppSpacing.lg,
+                      MediaQuery.of(context).padding.top + AppSpacing.md,
+                      AppSpacing.lg,
+                      AppSpacing.xl,
+                    ),
+                    child: Column(
+                      children: [
+                        // Close button
+                        Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: IconButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            icon: const Icon(Icons.close_rounded,
+                                color: Colors.white, size: 22),
+                            style: IconButton.styleFrom(
+                              backgroundColor:
+                                  Colors.white.withValues(alpha: 0.15),
+                              padding: const EdgeInsets.all(6),
+                              minimumSize: const Size(32, 32),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-                      // Plus icon
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.15),
-                          shape: BoxShape.circle,
+                        const SizedBox(height: AppSpacing.sm),
+                        // Plus icon (مصغّر)
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.15),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.stars_rounded,
+                              size: 36, color: Colors.white),
                         ),
-                        child: const Icon(Icons.stars_rounded,
-                            size: 48, color: Colors.white),
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-                      Text(
-                        l.plus_upgradeTitle,
-                        style: const TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                        const SizedBox(height: AppSpacing.sm),
+                        Text(
+                          l.plus_upgradeTitle,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: AppSpacing.sm),
-                      Text(
-                        l.plus_upgradeSubtitle,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white.withValues(alpha: 0.85),
-                          height: 1.5,
+                        const SizedBox(height: 4),
+                        Text(
+                          l.plus_upgradeSubtitle,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white.withValues(alpha: 0.85),
+                            height: 1.4,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ),
 
-              // ──── Content ────
-              SliverToBoxAdapter(
-                child: ResponsiveCenter(
-                  maxWidth: 700,
-                  child: Container(
+                  // ──── Content card ────
+                  Container(
+                    width: double.infinity,
                     decoration: const BoxDecoration(
                       color: AppColors.surface,
                       borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(28)),
+                          BorderRadius.vertical(top: Radius.circular(24)),
                     ),
-                    transform: Matrix4.translationValues(0, -24, 0),
+                    transform: Matrix4.translationValues(0, -20, 0),
                     padding: const EdgeInsets.fromLTRB(
                       AppSpacing.lg,
-                      AppSpacing.xl,
+                      AppSpacing.lg,
                       AppSpacing.lg,
                       AppSpacing.md,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        // ──── Membership features ────
+                        // ──── مميزات العضوية (compact) ────
                         Text(
                           l.plus_features,
-                          style: AppTextStyles.heading3,
+                          style: AppTextStyles.heading3.copyWith(fontSize: 16),
                           textAlign: TextAlign.right,
                         ),
-                        const SizedBox(height: AppSpacing.lg),
+                        const SizedBox(height: AppSpacing.sm),
 
-                        _FeatureCard(
+                        _CompactFeatureRow(
                           icon: Icons.chat_rounded,
                           color: AppColors.success,
                           title: l.plus_whatsappTitle,
                           description: l.plus_whatsappDesc,
                         ),
-                        const SizedBox(height: AppSpacing.md),
-                        _FeatureCard(
+                        const SizedBox(height: 6),
+                        _CompactFeatureRow(
                           icon: Icons.psychology_rounded,
                           color: AppColors.secondary,
                           title: l.plus_aiTitle,
                           description: l.plus_aiDesc,
                         ),
-                        const SizedBox(height: AppSpacing.md),
-                        _FeatureCard(
+                        const SizedBox(height: 6),
+                        _CompactFeatureRow(
                           icon: Icons.monitor_heart_rounded,
                           color: AppColors.tertiaryFixedDim,
                           title: l.plus_monitorTitle,
                           description: l.plus_monitorDesc,
                         ),
 
-                        const SizedBox(height: AppSpacing.xxl),
-
-                        // ──── Plans ────
-                        Text(
-                          l.plus_choosePlan,
-                          style: AppTextStyles.heading3,
-                          textAlign: TextAlign.right,
-                        ),
                         const SizedBox(height: AppSpacing.lg),
 
-                        // Yearly
-                        _PlanCard(
-                          title: l.plus_yearly,
-                          price: l.plus_yearlyPrice,
-                          period: l.plus_perYear,
-                          badge: l.plus_save29,
-                          isSelected:
-                              _selectedPlan == SubscriptionPlan.yearlyPlus,
-                          onTap: () => setState(
-                              () => _selectedPlan =
-                                  SubscriptionPlan.yearlyPlus),
+                        // ──── الخطة الشهرية (وحيدة) ────
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.lg, vertical: 14),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryFixed
+                                .withValues(alpha: 0.3),
+                            borderRadius: BorderRadius.circular(
+                                AppDesign.cardRadius),
+                            border: Border.all(
+                              color: AppColors.primary
+                                  .withValues(alpha: 0.5),
+                              width: 2,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              // Radio (selected)
+                              Container(
+                                width: 22,
+                                height: 22,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: AppColors.primary,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Container(
+                                    width: 11,
+                                    height: 11,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const Spacer(),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(l.plus_monthly,
+                                      style: AppTextStyles.label),
+                                  const SizedBox(height: 2),
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: l.plus_monthlyPrice,
+                                          style: const TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.primary,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: ' ${l.plus_perMonth}',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: AppColors.textSecondary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        const SizedBox(height: AppSpacing.md),
 
-                        // Monthly
-                        _PlanCard(
-                          title: l.plus_monthly,
-                          price: l.plus_monthlyPrice,
-                          period: l.plus_perMonth,
-                          isSelected:
-                              _selectedPlan == SubscriptionPlan.monthlyPlus,
-                          onTap: () => setState(
-                              () => _selectedPlan =
-                                  SubscriptionPlan.monthlyPlus),
-                        ),
-
-                        const SizedBox(height: AppSpacing.xxl),
+                        const SizedBox(height: AppSpacing.lg),
 
                         // ──── Subscribe button ────
                         ElevatedButton(
-                          onPressed:
-                              subState.isLoading ? null : _subscribe,
+                          onPressed: subState.isLoading
+                              ? null
+                              : () async {
+                                  final successMsg = l.plus_welcomeMsg;
+                                  final cubit =
+                                      context.read<SubscriptionCubit>();
+                                  final success = await cubit
+                                      .subscribe(SubscriptionPlan.monthlyPlus);
+                                  if (!context.mounted) return;
+                                  if (success) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(successMsg,
+                                            textAlign: TextAlign.right),
+                                        backgroundColor: AppColors.success,
+                                        behavior: SnackBarBehavior.floating,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12)),
+                                      ),
+                                    );
+                                    Navigator.of(context).pop();
+                                  }
+                                },
                           style: ElevatedButton.styleFrom(
-                            padding:
-                                const EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
                           ),
                           child: subState.isLoading
                               ? const SizedBox(
-                                  width: 24,
-                                  height: 24,
+                                  width: 22,
+                                  height: 22,
                                   child: CircularProgressIndicator(
                                     color: Colors.white,
                                     strokeWidth: 2.5,
@@ -217,29 +258,99 @@ class _YameenakPlusScreenState extends State<YameenakPlusScreen> {
                               : Text(
                                   l.plus_subscribe,
                                   style: const TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold),
                                 ),
                         ),
 
-                        const SizedBox(height: AppSpacing.lg),
+                        const SizedBox(height: AppSpacing.md),
 
-                        // Terms
-                        Text(
-                          l.plus_terms,
-                          style: AppTextStyles.caption.copyWith(
-                            color: AppColors.textMuted,
+                        // ──── روابط الشروط والخصوصية ────
+                        Center(
+                          child: Text.rich(
+                            TextSpan(
+                              style: AppTextStyles.caption.copyWith(
+                                color: AppColors.textMuted,
+                                fontSize: 11,
+                              ),
+                              children: [
+                                TextSpan(text: '${l.plus_terms.split('.').first}. '),
+                                TextSpan(
+                                  text: l.plus_termsLink,
+                                  style: const TextStyle(
+                                    color: AppColors.primary,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () =>
+                                        launchUrl(Uri.parse(_termsUrl)),
+                                ),
+                                const TextSpan(text: ' · '),
+                                TextSpan(
+                                  text: l.plus_privacyLink,
+                                  style: const TextStyle(
+                                    color: AppColors.primary,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () =>
+                                        launchUrl(Uri.parse(_privacyUrl)),
+                                ),
+                              ],
+                            ),
+                            textAlign: TextAlign.center,
+                            textDirection: TextDirection.rtl,
                           ),
-                          textAlign: TextAlign.center,
                         ),
 
-                        const SizedBox(height: AppSpacing.xxl),
+                        const SizedBox(height: AppSpacing.md),
+
+                        // ──── معلومات أبل المهمة ────
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceContainerLowest,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: AppColors.outline.withValues(alpha: 0.3),
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    l.plus_appleInfo,
+                                    style: AppTextStyles.caption.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Icon(Icons.info_outline_rounded,
+                                      size: 16,
+                                      color: AppColors.textSecondary),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              _AppleInfoBullet(text: l.plus_autoRenew),
+                              const SizedBox(height: 4),
+                              _AppleInfoBullet(text: l.plus_cancelInfo),
+                              const SizedBox(height: 4),
+                              _AppleInfoBullet(text: l.plus_noRefund),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(height: AppSpacing.md),
                       ],
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },
@@ -247,14 +358,14 @@ class _YameenakPlusScreenState extends State<YameenakPlusScreen> {
   }
 }
 
-// ──── Feature card ────
-class _FeatureCard extends StatelessWidget {
+// ──── Compact feature row ────
+class _CompactFeatureRow extends StatelessWidget {
   final IconData icon;
   final Color color;
   final String title;
   final String description;
 
-  const _FeatureCard({
+  const _CompactFeatureRow({
     required this.icon,
     required this.color,
     required this.title,
@@ -263,43 +374,44 @@ class _FeatureCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceContainerLowest,
-        borderRadius: BorderRadius.circular(AppDesign.cardRadius),
-      ),
+    return Directionality(
+      textDirection: TextDirection.rtl,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Container(
+            padding: const EdgeInsets.all(7),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, color: color, size: 18),
+          ),
+          const SizedBox(width: 10),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
                   style:
-                      AppTextStyles.label.copyWith(fontWeight: FontWeight.bold),
+                      AppTextStyles.caption.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
                 ),
-                const SizedBox(height: 4),
                 Text(
                   description,
                   style: AppTextStyles.caption.copyWith(
                     color: AppColors.textSecondary,
-                    height: 1.5,
+                    fontSize: 11,
+                    height: 1.3,
                   ),
-                  textAlign: TextAlign.right,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
-          ),
-          const SizedBox(width: AppSpacing.lg),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(icon, color: color, size: 28),
           ),
         ],
       ),
@@ -307,125 +419,32 @@ class _FeatureCard extends StatelessWidget {
   }
 }
 
-// ──── Plan card ────
-class _PlanCard extends StatelessWidget {
-  final String title;
-  final String price;
-  final String period;
-  final String? badge;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _PlanCard({
-    required this.title,
-    required this.price,
-    required this.period,
-    this.badge,
-    required this.isSelected,
-    required this.onTap,
-  });
+// ──── Apple info bullet ────
+class _AppleInfoBullet extends StatelessWidget {
+  final String text;
+  const _AppleInfoBullet({required this.text});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primaryFixed.withValues(alpha: 0.3)
-              : AppColors.surfaceContainerLowest,
-          borderRadius: BorderRadius.circular(AppDesign.cardRadius),
-          border: Border.all(
-            color: isSelected
-                ? AppColors.primary.withValues(alpha: 0.5)
-                : Colors.transparent,
-            width: 2,
-          ),
-        ),
-        child: Row(
-          children: [
-            // Radio
-            Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color:
-                      isSelected ? AppColors.primary : AppColors.outline,
-                  width: 2,
-                ),
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('• ',
+              style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
+          Expanded(
+            child: Text(
+              text,
+              style: AppTextStyles.caption.copyWith(
+                color: AppColors.textMuted,
+                fontSize: 10.5,
+                height: 1.4,
               ),
-              child: isSelected
-                  ? Center(
-                      child: Container(
-                        width: 12,
-                        height: 12,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    )
-                  : null,
+              textDirection: TextDirection.rtl,
             ),
-            const Spacer(),
-            // Price
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  children: [
-                    if (badge != null) ...[
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: AppColors.success.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          badge!,
-                          style: const TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.success,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                    ],
-                    Text(title, style: AppTextStyles.label),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: price,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      TextSpan(
-                        text: ' $period',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

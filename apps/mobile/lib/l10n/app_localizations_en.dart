@@ -65,6 +65,27 @@ class SEn extends S {
   String get login_errorOtpInvalid => 'Invalid code. Try again.';
 
   @override
+  String get register_title => 'Create Account';
+
+  @override
+  String get register_emailHint => 'Email';
+
+  @override
+  String get register_haveAccount => 'Already have an account?';
+
+  @override
+  String get register_loginLink => 'Sign In';
+
+  @override
+  String get register_fillAllFields => 'Please fill in all fields';
+
+  @override
+  String get login_noAccount => 'Don\'t have an account?';
+
+  @override
+  String get register_newAccount => 'Create Account';
+
+  @override
   String get dashboard_greeting => 'Hello 👋';
 
   @override
@@ -145,7 +166,7 @@ class SEn extends S {
   String get common_sar => 'SAR';
 
   @override
-  String get chat_title => 'Health Chat';
+  String get chat_title => 'Ameen — Your Health Assistant';
 
   @override
   String get chat_errorLoad => 'Failed to load conversation';
@@ -682,7 +703,7 @@ class SEn extends S {
   String get plus_yearlyPrice => '249';
 
   @override
-  String get plus_monthlyPrice => '29';
+  String get plus_monthlyPrice => '249';
 
   @override
   String get plus_perYear => 'SAR / year';
@@ -702,6 +723,27 @@ class SEn extends S {
 
   @override
   String get plus_welcomeMsg => 'Welcome to Yameenak Plus! 🎉';
+
+  @override
+  String get plus_termsLink => 'Terms & Conditions';
+
+  @override
+  String get plus_privacyLink => 'Privacy Policy';
+
+  @override
+  String get plus_appleInfo => 'Important Information';
+
+  @override
+  String get plus_autoRenew =>
+      'Subscription automatically renews monthly unless cancelled at least 24 hours before the end of the current period.';
+
+  @override
+  String get plus_cancelInfo =>
+      'You can cancel your subscription at any time from your Apple ID settings.';
+
+  @override
+  String get plus_noRefund =>
+      'No refund is provided for any unused portion of the current subscription period.';
 
   @override
   String get gate_exclusive => 'Exclusive to Yameenak Plus';
@@ -756,7 +798,7 @@ class SEn extends S {
 
   @override
   String get chat_aiDisclaimer =>
-      '⚕️ Atheer is a smart health assistant, not a doctor. It does not prescribe medications. Always consult your doctor for medical decisions.';
+      '⚕️ Ameen is a smart health assistant, not a doctor. It does not prescribe medications. Always consult your doctor for medical decisions.';
 
   @override
   String get privacy_noDataSelling =>

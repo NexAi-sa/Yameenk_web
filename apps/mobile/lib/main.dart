@@ -13,6 +13,7 @@ import 'core/network/dio_client.dart';
 // Features — Auth
 import 'features/auth/data/datasources/auth_remote_datasource.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
+import 'features/auth/domain/usecases/login_with_email_usecase.dart';
 import 'features/auth/domain/usecases/register_usecase.dart';
 import 'features/auth/domain/usecases/request_otp_usecase.dart';
 import 'features/auth/domain/usecases/verify_otp_usecase.dart';
@@ -120,9 +121,10 @@ class _YameenakAppState extends State<YameenakApp> {
       requestOtp: RequestOtpUseCase(authRepo),
       verifyOtp: VerifyOtpUseCase(authRepo),
       register: RegisterUseCase(authRepo),
+      loginWithEmail: LoginWithEmailUseCase(authRepo),
     );
 
-    _appRouter = AppRouter(authCubit: _authCubit);
+    _appRouter = AppRouter(authCubit: _authCubit, dioClient: _dioClient);
     _dioClient.onSessionExpired = () => _appRouter.router.go('/welcome');
 
     // Patient
@@ -154,6 +156,9 @@ class _YameenakAppState extends State<YameenakApp> {
     // Consent / Privacy
     final consentDataSource = ConsentRemoteDataSourceImpl(_dioClient);
     _consentRepo = ConsentRepositoryImpl(consentDataSource);
+
+    // Auto-restore session from saved token
+    _authCubit.checkAuthStatus();
   }
 
   @override
@@ -199,6 +204,8 @@ class _YameenakAppState extends State<YameenakApp> {
           create: (_) =>
               ConsentCubit(repository: _consentRepo),
         ),
+        // ChatCubit — created lazily when user navigates to chat
+        // It needs patientId which may not be available yet at startup.
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, localeState) {

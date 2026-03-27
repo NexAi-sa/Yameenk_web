@@ -1,5 +1,6 @@
 library;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/error/exceptions.dart';
@@ -33,7 +34,7 @@ class ConsentRemoteDataSourceImpl implements ConsentRemoteDataSource {
   @override
   Future<List<Map<String, dynamic>>> getConsents() async {
     try {
-      final res = await _client.rest.get('/privacy/consents');
+      final res = await _client.api.get('/privacy/consents');
       return List<Map<String, dynamic>>.from(res.data as List);
     } catch (_) {
       throw const ServerException();
@@ -43,18 +44,21 @@ class ConsentRemoteDataSourceImpl implements ConsentRemoteDataSource {
   @override
   Future<void> submitConsents(
       List<Map<String, dynamic>> consents) async {
+    // Save locally first so the user is never blocked
+    await markConsentCompleted();
     try {
-      await _client.rest
+      await _client.api
           .post('/privacy/consents/batch', data: {'consents': consents});
-    } catch (_) {
-      throw const ServerException();
+    } catch (e) {
+      // Log error but don't block user — local consent is saved
+      debugPrint('⚠️ Consent sync to server failed: $e');
     }
   }
 
   @override
   Future<void> revokeConsent(String typeKey) async {
     try {
-      await _client.rest.delete('/privacy/consents/$typeKey');
+      await _client.api.delete('/privacy/consents/$typeKey');
     } catch (_) {
       throw const ServerException();
     }

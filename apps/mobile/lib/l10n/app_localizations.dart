@@ -199,6 +199,48 @@ abstract class S {
   /// **'رمز غير صحيح. حاول مرة أخرى.'**
   String get login_errorOtpInvalid;
 
+  /// No description provided for @register_title.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء حساب'**
+  String get register_title;
+
+  /// No description provided for @register_emailHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد الإلكتروني'**
+  String get register_emailHint;
+
+  /// No description provided for @register_haveAccount.
+  ///
+  /// In ar, this message translates to:
+  /// **'لديك حساب بالفعل؟'**
+  String get register_haveAccount;
+
+  /// No description provided for @register_loginLink.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول'**
+  String get register_loginLink;
+
+  /// No description provided for @register_fillAllFields.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى تعبئة جميع الحقول'**
+  String get register_fillAllFields;
+
+  /// No description provided for @login_noAccount.
+  ///
+  /// In ar, this message translates to:
+  /// **'ليس لديك حساب؟'**
+  String get login_noAccount;
+
+  /// No description provided for @register_newAccount.
+  ///
+  /// In ar, this message translates to:
+  /// **'حساب جديد'**
+  String get register_newAccount;
+
   /// No description provided for @dashboard_greeting.
   ///
   /// In ar, this message translates to:
@@ -352,7 +394,7 @@ abstract class S {
   /// No description provided for @chat_title.
   ///
   /// In ar, this message translates to:
-  /// **'الشات الصحي'**
+  /// **'أمين — مساعدك الصحي'**
   String get chat_title;
 
   /// No description provided for @chat_errorLoad.
@@ -1360,7 +1402,7 @@ abstract class S {
   /// No description provided for @plus_monthlyPrice.
   ///
   /// In ar, this message translates to:
-  /// **'٢٩'**
+  /// **'٢٤٩'**
   String get plus_monthlyPrice;
 
   /// No description provided for @plus_perYear.
@@ -1398,6 +1440,42 @@ abstract class S {
   /// In ar, this message translates to:
   /// **'مرحباً بك في يمينك بلس! 🎉'**
   String get plus_welcomeMsg;
+
+  /// No description provided for @plus_termsLink.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشروط والأحكام'**
+  String get plus_termsLink;
+
+  /// No description provided for @plus_privacyLink.
+  ///
+  /// In ar, this message translates to:
+  /// **'سياسة الخصوصية'**
+  String get plus_privacyLink;
+
+  /// No description provided for @plus_appleInfo.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلومات مهمة'**
+  String get plus_appleInfo;
+
+  /// No description provided for @plus_autoRenew.
+  ///
+  /// In ar, this message translates to:
+  /// **'يتجدد الاشتراك تلقائياً كل شهر ما لم يتم إلغاؤه قبل ٢٤ ساعة من نهاية الفترة الحالية.'**
+  String get plus_autoRenew;
+
+  /// No description provided for @plus_cancelInfo.
+  ///
+  /// In ar, this message translates to:
+  /// **'يمكنك إلغاء الاشتراك في أي وقت من إعدادات حساب Apple ID.'**
+  String get plus_cancelInfo;
+
+  /// No description provided for @plus_noRefund.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يتم استرداد المبلغ عن أي جزء غير مستخدم من فترة الاشتراك الحالية.'**
+  String get plus_noRefund;
 
   /// No description provided for @gate_exclusive.
   ///
@@ -1492,7 +1570,7 @@ abstract class S {
   /// No description provided for @chat_aiDisclaimer.
   ///
   /// In ar, this message translates to:
-  /// **'⚕️ أثير مساعد صحي ذكي وليس طبيباً. لا يقدم وصفات طبية. استشر طبيبك دائماً في القرارات الطبية.'**
+  /// **'⚕️ أمين مساعد صحي ذكي وليس طبيباً. لا يقدم وصفات طبية. استشر طبيبك دائماً في القرارات الطبية.'**
   String get chat_aiDisclaimer;
 
   /// No description provided for @privacy_noDataSelling.

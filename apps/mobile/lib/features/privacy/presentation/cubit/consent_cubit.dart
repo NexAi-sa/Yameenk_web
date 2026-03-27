@@ -40,7 +40,8 @@ class ConsentCubit extends Cubit<ConsentState> {
 
     return result.fold(
       (failure) {
-        emit(ConsentError(failure.message));
+        // Restore previous state so the user can retry
+        emit(ConsentLoaded(consent));
         return false;
       },
       (_) {

@@ -7,12 +7,29 @@ import 'package:go_router/go_router.dart';
 import '../../app/theme.dart';
 import '../../core/responsive_scaffold.dart';
 import '../../main.dart';
+import '../../features/auth/presentation/cubit/auth_cubit.dart';
+import '../../features/auth/presentation/cubit/auth_state.dart';
 import '../../features/medical_profile/domain/entities/medical_profile_entity.dart';
 import '../../features/medical_profile/presentation/cubit/medical_profile_cubit.dart';
 import '../../features/medical_profile/presentation/cubit/medical_profile_state.dart';
 
-class MedicalProfileScreen extends StatelessWidget {
+class MedicalProfileScreen extends StatefulWidget {
   const MedicalProfileScreen({super.key});
+
+  @override
+  State<MedicalProfileScreen> createState() => _MedicalProfileScreenState();
+}
+
+class _MedicalProfileScreenState extends State<MedicalProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Auto-load profile when screen opens
+    final authState = context.read<AuthCubit>().state;
+    if (authState is AuthAuthenticated) {
+      context.read<MedicalProfileCubit>().load(authState.patientId);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

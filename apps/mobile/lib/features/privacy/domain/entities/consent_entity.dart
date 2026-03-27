@@ -13,6 +13,26 @@ enum ConsentType {
       'تحليل الذكاء الاصطناعي',
       'يستخدم يمينك الذكاء الاصطناعي لتحليل القراءات وتقديم إرشادات صحية.',
       true),
+  predictiveHealthMonitoring(
+      'predictive_health_monitoring',
+      'التنبؤ بالأمراض الصامتة',
+      'تحليل اتجاهات القراءات لاكتشاف المخاطر الصحية مبكراً قبل تفاقمها.',
+      true),
+  crossBorderAiTransfer(
+      'cross_border_ai_transfer',
+      'نقل بيانات مجهولة لخارج المملكة',
+      'إرسال بيانات مجهولة الهوية لخدمات الذكاء الاصطناعي (Gemini/Claude) للتحليل المتقدم. وفقاً للمادة 29 من PDPL.',
+      true),
+  medicalRecordsRetention(
+      'medical_records_retention',
+      'الاحتفاظ بالسجلات الطبية',
+      'الاحتفاظ بسجلاتك الطبية لمدة 10 سنوات وفقاً لأنظمة وزارة الصحة.',
+      true),
+  emergencyFamilyAccess(
+      'emergency_family_access',
+      'وصول الأسرة في الطوارئ',
+      'السماح لأفراد الأسرة المسجلين بالوصول للبيانات الصحية في حالات الطوارئ.',
+      true),
   whatsappNotifications(
       'whatsapp_notifications',
       'إشعارات واتساب',

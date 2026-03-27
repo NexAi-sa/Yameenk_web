@@ -105,15 +105,34 @@ class WelcomePage extends StatelessWidget {
                   // أزرار الأكشن
                   Column(
                     children: [
-                      ElevatedButton(
-                        onPressed: () => context.go('/register'),
-                        style: ElevatedButton.styleFrom(
-                            padding:
-                                const EdgeInsets.symmetric(vertical: 18)),
-                        child: Text(S.of(context).welcome_getStarted,
-                            style: const TextStyle(fontSize: 18)),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () => context.go('/register'),
+                          style: ElevatedButton.styleFrom(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 18)),
+                          child: Text(S.of(context).welcome_getStarted,
+                              style: const TextStyle(fontSize: 18)),
+                        ),
                       ),
-
+                      const SizedBox(height: AppSpacing.md),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () => context.go('/login'),
+                          style: OutlinedButton.styleFrom(
+                            padding:
+                                const EdgeInsets.symmetric(vertical: 18),
+                            side: const BorderSide(
+                                color: AppColors.primary, width: 1.5),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100)),
+                          ),
+                          child: Text(S.of(context).login_title,
+                              style: const TextStyle(fontSize: 18)),
+                        ),
+                      ),
                     ],
                   ),
 

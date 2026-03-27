@@ -54,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final password = _passwordController.text;
 
     if (name.isEmpty || identity.isEmpty || password.isEmpty) {
-      _showError(S.of(context).login_errorPhoneInvalid);
+      _showError(S.of(context).register_fillAllFields);
       return;
     }
 
@@ -167,12 +167,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           children: [
                             const AppLogo(size: 120),
                             const SizedBox(height: AppSpacing.lg),
-                            Text(S.of(context).login_title,
+                            Text(S.of(context).register_title,
                                 style: AppTextStyles.heading2,
-                                textAlign: TextAlign.right),
-                            const SizedBox(height: AppSpacing.xs),
-                            Text(S.of(context).login_subtitle,
-                                style: AppTextStyles.bodySecondary,
                                 textAlign: TextAlign.right),
                             const SizedBox(height: AppSpacing.lg),
                             _buildLabel(S.of(context).setup_fullName),
@@ -185,7 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                             ),
                             const SizedBox(height: AppSpacing.lg),
-                            _buildLabel(S.of(context).login_phoneHint),
+                            _buildLabel(S.of(context).register_emailHint),
                             TextField(
                               controller: _emailPhoneController,
                               textAlign: TextAlign.right,
@@ -272,12 +268,13 @@ class _RegisterPageState extends State<RegisterPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 TextButton(
-                                  onPressed: () => context.go('/welcome'),
-                                  child: const Text('تسجيل الدخول',
-                                      style: TextStyle(
+                                  onPressed: () => context.go('/login'),
+                                  child: Text(
+                                      S.of(context).register_loginLink,
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold)),
                                 ),
-                                const Text('لديك حساب بالفعل؟'),
+                                Text(S.of(context).register_haveAccount),
                               ],
                             ),
                           ],

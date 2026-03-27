@@ -22,6 +22,14 @@
   "login_errorOtpLength": "أدخل الرمز المكوّن من 6 أرقام",
   "login_errorOtpInvalid": "رمز غير صحيح. حاول مرة أخرى.",
 
+  "register_title": "إنشاء حساب",
+  "register_emailHint": "البريد الإلكتروني",
+  "register_haveAccount": "لديك حساب بالفعل؟",
+  "register_loginLink": "تسجيل الدخول",
+  "register_fillAllFields": "يرجى تعبئة جميع الحقول",
+  "login_noAccount": "ليس لديك حساب؟",
+  "register_newAccount": "حساب جديد",
+
   "dashboard_greeting": "مرحباً 👋",
   "dashboard_subtitle": "متابعة صحة المريض",
   "dashboard_recordReading": "سجّل قراءة",
@@ -51,7 +59,7 @@
   "common_kg": "كجم",
   "common_sar": "ر.س",
 
-  "chat_title": "الشات الصحي",
+  "chat_title": "أمين — مساعدك الصحي",
   "chat_errorLoad": "تعذّر تحميل المحادثة",
   "chat_errorDetail": "تحقق من اتصالك بالإنترنت",
   "chat_inputHint": "اسأل عن والدك...",
@@ -237,13 +245,19 @@
   "plus_yearly": "سنوي",
   "plus_monthly": "شهري",
   "plus_yearlyPrice": "٢٤٩",
-  "plus_monthlyPrice": "٢٩",
+  "plus_monthlyPrice": "٢٤٩",
   "plus_perYear": "ر.س / سنة",
   "plus_perMonth": "ر.س / شهر",
   "plus_save29": "وفّر ٢٩٪",
   "plus_subscribe": "اشترك الآن",
   "plus_terms": "بالاشتراك، أنت توافق على الشروط والأحكام وسياسة الخصوصية.",
   "plus_welcomeMsg": "مرحباً بك في يمينك بلس! 🎉",
+  "plus_termsLink": "الشروط والأحكام",
+  "plus_privacyLink": "سياسة الخصوصية",
+  "plus_appleInfo": "معلومات مهمة",
+  "plus_autoRenew": "يتجدد الاشتراك تلقائياً كل شهر ما لم يتم إلغاؤه قبل ٢٤ ساعة من نهاية الفترة الحالية.",
+  "plus_cancelInfo": "يمكنك إلغاء الاشتراك في أي وقت من إعدادات حساب Apple ID.",
+  "plus_noRefund": "لا يتم استرداد المبلغ عن أي جزء غير مستخدم من فترة الاشتراك الحالية.",
 
   "gate_exclusive": "ميزة حصرية ليمينك بلس",
   "gate_subscribeFor": "اشترك في يمينك بلس للوصول إلى {feature}\nوجميع المميزات المتقدمة",
@@ -266,7 +280,7 @@
   "disclaimer_accept": "قرأتُ وأوافق",
   "disclaimer_footer": "باستخدامك التطبيق فإنك توافق على أن يمينك أداة متابعة فقط وليست بديلاً عن الرعاية الطبية.",
 
-  "chat_aiDisclaimer": "⚕️ أثير مساعد صحي ذكي وليس طبيباً. لا يقدم وصفات طبية. استشر طبيبك دائماً في القرارات الطبية.",
+  "chat_aiDisclaimer": "⚕️ أمين مساعد صحي ذكي وليس طبيباً. لا يقدم وصفات طبية. استشر طبيبك دائماً في القرارات الطبية.",
 
   "privacy_noDataSelling": "بياناتك الصحية لا تُباع ولا تُشارك مع أي طرف ثالث لأغراض إعلانية أو تجارية.",
   "dashboard_lastUpdated": "آخر تحديث: قبل ٥ دقائق",

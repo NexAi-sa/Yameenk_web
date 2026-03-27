@@ -18,7 +18,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         'patient_id': patientId,
         'message': message,
       });
-      return (res.data as Map<String, dynamic>)['response'] as String;
+      return (res.data as Map<String, dynamic>)['message'] as String;
     } catch (_) {
       throw const ServerException('فشل إرسال الرسالة');
     }

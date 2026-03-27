@@ -67,14 +67,10 @@ class _ChatPageState extends State<ChatPage> {
           children: [
             Text(l.chat_title),
             const SizedBox(width: AppSpacing.sm),
-            Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: AppColors.primaryLight,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Icon(Icons.smart_toy_rounded,
-                  size: 20, color: AppColors.primary),
+            const CircleAvatar(
+              radius: 16,
+              backgroundImage:
+                  AssetImage('assets/images/ameen_avatar.png'),
             ),
           ],
         ),

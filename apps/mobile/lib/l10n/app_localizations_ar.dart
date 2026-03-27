@@ -64,6 +64,27 @@ class SAr extends S {
   String get login_errorOtpInvalid => 'رمز غير صحيح. حاول مرة أخرى.';
 
   @override
+  String get register_title => 'إنشاء حساب';
+
+  @override
+  String get register_emailHint => 'البريد الإلكتروني';
+
+  @override
+  String get register_haveAccount => 'لديك حساب بالفعل؟';
+
+  @override
+  String get register_loginLink => 'تسجيل الدخول';
+
+  @override
+  String get register_fillAllFields => 'يرجى تعبئة جميع الحقول';
+
+  @override
+  String get login_noAccount => 'ليس لديك حساب؟';
+
+  @override
+  String get register_newAccount => 'حساب جديد';
+
+  @override
   String get dashboard_greeting => 'مرحباً 👋';
 
   @override
@@ -144,7 +165,7 @@ class SAr extends S {
   String get common_sar => 'ر.س';
 
   @override
-  String get chat_title => 'الشات الصحي';
+  String get chat_title => 'أمين — مساعدك الصحي';
 
   @override
   String get chat_errorLoad => 'تعذّر تحميل المحادثة';
@@ -679,7 +700,7 @@ class SAr extends S {
   String get plus_yearlyPrice => '٢٤٩';
 
   @override
-  String get plus_monthlyPrice => '٢٩';
+  String get plus_monthlyPrice => '٢٤٩';
 
   @override
   String get plus_perYear => 'ر.س / سنة';
@@ -699,6 +720,27 @@ class SAr extends S {
 
   @override
   String get plus_welcomeMsg => 'مرحباً بك في يمينك بلس! 🎉';
+
+  @override
+  String get plus_termsLink => 'الشروط والأحكام';
+
+  @override
+  String get plus_privacyLink => 'سياسة الخصوصية';
+
+  @override
+  String get plus_appleInfo => 'معلومات مهمة';
+
+  @override
+  String get plus_autoRenew =>
+      'يتجدد الاشتراك تلقائياً كل شهر ما لم يتم إلغاؤه قبل ٢٤ ساعة من نهاية الفترة الحالية.';
+
+  @override
+  String get plus_cancelInfo =>
+      'يمكنك إلغاء الاشتراك في أي وقت من إعدادات حساب Apple ID.';
+
+  @override
+  String get plus_noRefund =>
+      'لا يتم استرداد المبلغ عن أي جزء غير مستخدم من فترة الاشتراك الحالية.';
 
   @override
   String get gate_exclusive => 'ميزة حصرية ليمينك بلس';
@@ -753,7 +795,7 @@ class SAr extends S {
 
   @override
   String get chat_aiDisclaimer =>
-      '⚕️ أثير مساعد صحي ذكي وليس طبيباً. لا يقدم وصفات طبية. استشر طبيبك دائماً في القرارات الطبية.';
+      '⚕️ أمين مساعد صحي ذكي وليس طبيباً. لا يقدم وصفات طبية. استشر طبيبك دائماً في القرارات الطبية.';
 
   @override
   String get privacy_noDataSelling =>

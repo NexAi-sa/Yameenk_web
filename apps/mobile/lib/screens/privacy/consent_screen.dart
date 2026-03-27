@@ -249,6 +249,7 @@ class _ConsentTile extends StatelessWidget {
       ConsentType.pushNotifications => l.consent_type_push,
       ConsentType.analytics => l.consent_type_analytics,
       ConsentType.marketing => l.consent_type_marketing,
+      _ => type.label,
     };
   }
 
@@ -261,6 +262,7 @@ class _ConsentTile extends StatelessWidget {
       ConsentType.pushNotifications => l.consent_type_pushDesc,
       ConsentType.analytics => l.consent_type_analyticsDesc,
       ConsentType.marketing => l.consent_type_marketingDesc,
+      _ => type.description,
     };
   }
 

@@ -52,6 +52,19 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, AuthEntity>> loginWithEmail(
+      String email, String password) async {
+    try {
+      final json = await dataSource.loginWithEmail(email, password);
+      return Right(AuthModel.fromJson(json));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, bool>> hasCompletedConsent() async {
     try {
       final result = await dataSource.hasCompletedConsent();

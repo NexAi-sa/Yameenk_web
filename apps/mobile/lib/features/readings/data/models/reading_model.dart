@@ -39,9 +39,9 @@ class ReadingModel extends ReadingEntity {
       id: json['id'] as String,
       patientId: json['patient_id'] as String,
       type: type,
-      value: (json['value'] as num).toDouble(),
-      value2: json['value2'] != null
-          ? (json['value2'] as num).toDouble()
+      value: (json['value_1'] as num).toDouble(),
+      value2: json['value_2'] != null
+          ? (json['value_2'] as num).toDouble()
           : null,
       unit: json['unit'] as String,
       isNormal: json['is_normal'] as bool? ?? true,
