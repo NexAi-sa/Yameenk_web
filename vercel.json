@@ -1,0 +1,7 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "turbo run build --filter=@yameenak/web",
+  "outputDirectory": "apps/web/.next",
+  "installCommand": "npm install",
+  "regions": ["arn1"]
+}
