@@ -2,30 +2,32 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app/theme.dart';
 import '../../core/responsive_scaffold.dart';
 import '../../main.dart';
-import '../../providers/subscription_provider.dart';
+import '../../features/subscription/presentation/cubit/subscription_cubit.dart';
+import '../../features/subscription/presentation/cubit/subscription_state.dart';
 
-class YameenakPlusScreen extends ConsumerStatefulWidget {
+class YameenakPlusScreen extends StatefulWidget {
   const YameenakPlusScreen({super.key});
 
   @override
-  ConsumerState<YameenakPlusScreen> createState() => _YameenakPlusScreenState();
+  State<YameenakPlusScreen> createState() => _YameenakPlusScreenState();
 }
 
-class _YameenakPlusScreenState extends ConsumerState<YameenakPlusScreen> {
+class _YameenakPlusScreenState extends State<YameenakPlusScreen> {
   SubscriptionPlan _selectedPlan = SubscriptionPlan.yearlyPlus;
 
   Future<void> _subscribe() async {
-    final notifier = ref.read(subscriptionProvider.notifier);
-    final success = await notifier.subscribe(_selectedPlan);
-    if (success && mounted) {
+    final successMsg = context.l10n.plus_welcomeMsg;
+    final success =
+        await context.read<SubscriptionCubit>().subscribe(_selectedPlan);
+    if (!mounted) return;
+    if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(context.l10n.plus_welcomeMsg,
-              textAlign: TextAlign.right),
+          content: Text(successMsg, textAlign: TextAlign.right),
           backgroundColor: AppColors.success,
           behavior: SnackBarBehavior.floating,
           shape:
@@ -38,200 +40,209 @@ class _YameenakPlusScreenState extends ConsumerState<YameenakPlusScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final subState = ref.watch(subscriptionProvider);
     final l = context.l10n;
 
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          // ──── Header gradient ────
-          SliverToBoxAdapter(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: AppGradients.loginBackground,
-              ),
-              padding: EdgeInsets.fromLTRB(
-                AppSpacing.lg,
-                MediaQuery.of(context).padding.top + AppSpacing.lg,
-                AppSpacing.lg,
-                AppSpacing.xxl,
-              ),
-              child: Column(
-                children: [
-                  // Close button
-                  Align(
-                    alignment: AlignmentDirectional.centerEnd,
-                    child: IconButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon:
-                          const Icon(Icons.close_rounded, color: Colors.white),
-                      style: IconButton.styleFrom(
-                        backgroundColor: Colors.white.withValues(alpha: 0.15),
+    return BlocBuilder<SubscriptionCubit, SubscriptionState>(
+      builder: (context, subState) {
+        return Scaffold(
+          body: CustomScrollView(
+            slivers: [
+              // ──── Header gradient ────
+              SliverToBoxAdapter(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    gradient: AppGradients.loginBackground,
+                  ),
+                  padding: EdgeInsets.fromLTRB(
+                    AppSpacing.lg,
+                    MediaQuery.of(context).padding.top + AppSpacing.lg,
+                    AppSpacing.lg,
+                    AppSpacing.xxl,
+                  ),
+                  child: Column(
+                    children: [
+                      // Close button
+                      Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: IconButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          icon: const Icon(Icons.close_rounded,
+                              color: Colors.white),
+                          style: IconButton.styleFrom(
+                            backgroundColor:
+                                Colors.white.withValues(alpha: 0.15),
+                          ),
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: AppSpacing.lg),
+                      // Plus icon
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.stars_rounded,
+                            size: 48, color: Colors.white),
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      Text(
+                        l.plus_upgradeTitle,
+                        style: const TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      Text(
+                        l.plus_upgradeSubtitle,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white.withValues(alpha: 0.85),
+                          height: 1.5,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: AppSpacing.lg),
-                  // Plus icon
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.15),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(Icons.stars_rounded,
-                        size: 48, color: Colors.white),
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  Text(
-                    l.plus_upgradeTitle,
-                    style: const TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Text(
-                    l.plus_upgradeSubtitle,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white.withValues(alpha: 0.85),
-                      height: 1.5,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+                ),
               ),
-            ),
+
+              // ──── Content ────
+              SliverToBoxAdapter(
+                child: ResponsiveCenter(
+                  maxWidth: 700,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(28)),
+                    ),
+                    transform: Matrix4.translationValues(0, -24, 0),
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpacing.lg,
+                      AppSpacing.xl,
+                      AppSpacing.lg,
+                      AppSpacing.md,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // ──── Membership features ────
+                        Text(
+                          l.plus_features,
+                          style: AppTextStyles.heading3,
+                          textAlign: TextAlign.right,
+                        ),
+                        const SizedBox(height: AppSpacing.lg),
+
+                        _FeatureCard(
+                          icon: Icons.chat_rounded,
+                          color: AppColors.success,
+                          title: l.plus_whatsappTitle,
+                          description: l.plus_whatsappDesc,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        _FeatureCard(
+                          icon: Icons.psychology_rounded,
+                          color: AppColors.secondary,
+                          title: l.plus_aiTitle,
+                          description: l.plus_aiDesc,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        _FeatureCard(
+                          icon: Icons.monitor_heart_rounded,
+                          color: AppColors.tertiaryFixedDim,
+                          title: l.plus_monitorTitle,
+                          description: l.plus_monitorDesc,
+                        ),
+
+                        const SizedBox(height: AppSpacing.xxl),
+
+                        // ──── Plans ────
+                        Text(
+                          l.plus_choosePlan,
+                          style: AppTextStyles.heading3,
+                          textAlign: TextAlign.right,
+                        ),
+                        const SizedBox(height: AppSpacing.lg),
+
+                        // Yearly
+                        _PlanCard(
+                          title: l.plus_yearly,
+                          price: l.plus_yearlyPrice,
+                          period: l.plus_perYear,
+                          badge: l.plus_save29,
+                          isSelected:
+                              _selectedPlan == SubscriptionPlan.yearlyPlus,
+                          onTap: () => setState(
+                              () => _selectedPlan =
+                                  SubscriptionPlan.yearlyPlus),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+
+                        // Monthly
+                        _PlanCard(
+                          title: l.plus_monthly,
+                          price: l.plus_monthlyPrice,
+                          period: l.plus_perMonth,
+                          isSelected:
+                              _selectedPlan == SubscriptionPlan.monthlyPlus,
+                          onTap: () => setState(
+                              () => _selectedPlan =
+                                  SubscriptionPlan.monthlyPlus),
+                        ),
+
+                        const SizedBox(height: AppSpacing.xxl),
+
+                        // ──── Subscribe button ────
+                        ElevatedButton(
+                          onPressed:
+                              subState.isLoading ? null : _subscribe,
+                          style: ElevatedButton.styleFrom(
+                            padding:
+                                const EdgeInsets.symmetric(vertical: 16),
+                          ),
+                          child: subState.isLoading
+                              ? const SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2.5,
+                                  ),
+                                )
+                              : Text(
+                                  l.plus_subscribe,
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                        ),
+
+                        const SizedBox(height: AppSpacing.lg),
+
+                        // Terms
+                        Text(
+                          l.plus_terms,
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.textMuted,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+
+                        const SizedBox(height: AppSpacing.xxl),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-
-          // ──── Content ────
-          SliverToBoxAdapter(
-            child: ResponsiveCenter(
-              maxWidth: 700,
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(28)),
-                ),
-                transform: Matrix4.translationValues(0, -24, 0),
-                padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.lg,
-                  AppSpacing.xl,
-                  AppSpacing.lg,
-                  AppSpacing.md,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // ──── Membership features ────
-                    Text(
-                      l.plus_features,
-                      style: AppTextStyles.heading3,
-                      textAlign: TextAlign.right,
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-
-                    _FeatureCard(
-                      icon: Icons.chat_rounded,
-                      color: AppColors.success,
-                      title: l.plus_whatsappTitle,
-                      description: l.plus_whatsappDesc,
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    _FeatureCard(
-                      icon: Icons.psychology_rounded,
-                      color: AppColors.secondary,
-                      title: l.plus_aiTitle,
-                      description: l.plus_aiDesc,
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    _FeatureCard(
-                      icon: Icons.monitor_heart_rounded,
-                      color: AppColors.tertiaryFixedDim,
-                      title: l.plus_monitorTitle,
-                      description: l.plus_monitorDesc,
-                    ),
-
-                    const SizedBox(height: AppSpacing.xxl),
-
-                    // ──── Plans ────
-                    Text(
-                      l.plus_choosePlan,
-                      style: AppTextStyles.heading3,
-                      textAlign: TextAlign.right,
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-
-                    // Yearly
-                    _PlanCard(
-                      title: l.plus_yearly,
-                      price: l.plus_yearlyPrice,
-                      period: l.plus_perYear,
-                      badge: l.plus_save29,
-                      isSelected:
-                          _selectedPlan == SubscriptionPlan.yearlyPlus,
-                      onTap: () => setState(
-                          () => _selectedPlan = SubscriptionPlan.yearlyPlus),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-
-                    // Monthly
-                    _PlanCard(
-                      title: l.plus_monthly,
-                      price: l.plus_monthlyPrice,
-                      period: l.plus_perMonth,
-                      isSelected:
-                          _selectedPlan == SubscriptionPlan.monthlyPlus,
-                      onTap: () => setState(
-                          () => _selectedPlan = SubscriptionPlan.monthlyPlus),
-                    ),
-
-                    const SizedBox(height: AppSpacing.xxl),
-
-                    // ──── Subscribe button ────
-                    ElevatedButton(
-                      onPressed: subState.isLoading ? null : _subscribe,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                      ),
-                      child: subState.isLoading
-                          ? const SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2.5,
-                              ),
-                            )
-                          : Text(
-                              l.plus_subscribe,
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                    ),
-
-                    const SizedBox(height: AppSpacing.lg),
-
-                    // Terms
-                    Text(
-                      l.plus_terms,
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.textMuted,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-
-                    const SizedBox(height: AppSpacing.xxl),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -342,7 +353,8 @@ class _PlanCard extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? AppColors.primary : AppColors.outline,
+                  color:
+                      isSelected ? AppColors.primary : AppColors.outline,
                   width: 2,
                 ),
               ),

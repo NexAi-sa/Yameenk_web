@@ -1452,6 +1452,492 @@ abstract class S {
   /// In ar, this message translates to:
   /// **'English'**
   String get language_toggle;
+
+  /// No description provided for @disclaimer_title.
+  ///
+  /// In ar, this message translates to:
+  /// **'إخلاء مسؤولية طبية'**
+  String get disclaimer_title;
+
+  /// No description provided for @disclaimer_point1.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا التطبيق لا يقدم تشخيصاً طبياً ولا يُغني عن استشارة الطبيب المختص.'**
+  String get disclaimer_point1;
+
+  /// No description provided for @disclaimer_point2.
+  ///
+  /// In ar, this message translates to:
+  /// **'جميع القراءات والتنبيهات هي لأغراض المتابعة فقط ولا تمثل رأياً طبياً.'**
+  String get disclaimer_point2;
+
+  /// No description provided for @disclaimer_point3.
+  ///
+  /// In ar, this message translates to:
+  /// **'في حالات الطوارئ، يجب التوجه فوراً إلى أقرب مستشفى أو الاتصال بالرقم 997.'**
+  String get disclaimer_point3;
+
+  /// No description provided for @disclaimer_accept.
+  ///
+  /// In ar, this message translates to:
+  /// **'قرأتُ وأوافق'**
+  String get disclaimer_accept;
+
+  /// No description provided for @disclaimer_footer.
+  ///
+  /// In ar, this message translates to:
+  /// **'باستخدامك التطبيق فإنك توافق على أن يمينك أداة متابعة فقط وليست بديلاً عن الرعاية الطبية.'**
+  String get disclaimer_footer;
+
+  /// No description provided for @chat_aiDisclaimer.
+  ///
+  /// In ar, this message translates to:
+  /// **'⚕️ أثير مساعد صحي ذكي وليس طبيباً. لا يقدم وصفات طبية. استشر طبيبك دائماً في القرارات الطبية.'**
+  String get chat_aiDisclaimer;
+
+  /// No description provided for @privacy_noDataSelling.
+  ///
+  /// In ar, this message translates to:
+  /// **'بياناتك الصحية لا تُباع ولا تُشارك مع أي طرف ثالث لأغراض إعلانية أو تجارية.'**
+  String get privacy_noDataSelling;
+
+  /// No description provided for @dashboard_lastUpdated.
+  ///
+  /// In ar, this message translates to:
+  /// **'آخر تحديث: قبل ٥ دقائق'**
+  String get dashboard_lastUpdated;
+
+  /// No description provided for @dashboard_recentActivities.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأنشطة الأخيرة'**
+  String get dashboard_recentActivities;
+
+  /// No description provided for @dashboard_viewAll.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض الكل'**
+  String get dashboard_viewAll;
+
+  /// No description provided for @dashboard_completeProfileBanner.
+  ///
+  /// In ar, this message translates to:
+  /// **'أكمل ملفك الطبي الآن للمتابعة الذكية.'**
+  String get dashboard_completeProfileBanner;
+
+  /// No description provided for @dashboard_completeBtn.
+  ///
+  /// In ar, this message translates to:
+  /// **'أكمل'**
+  String get dashboard_completeBtn;
+
+  /// No description provided for @dashboard_patientStatus.
+  ///
+  /// In ar, this message translates to:
+  /// **'حالة {name}'**
+  String dashboard_patientStatus(String name);
+
+  /// No description provided for @dashboard_statusExcellent.
+  ///
+  /// In ar, this message translates to:
+  /// **'مستقر وممتاز اليوم'**
+  String get dashboard_statusExcellent;
+
+  /// No description provided for @dashboard_stablePulse.
+  ///
+  /// In ar, this message translates to:
+  /// **'نبض مستقر'**
+  String get dashboard_stablePulse;
+
+  /// No description provided for @dashboard_talkToAI.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحدث مع المساعد الذكي'**
+  String get dashboard_talkToAI;
+
+  /// No description provided for @dashboard_aiSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'استشارة طبية سريعة مع الذكاء الاصطناعي'**
+  String get dashboard_aiSubtitle;
+
+  /// No description provided for @dashboard_actInsulin.
+  ///
+  /// In ar, this message translates to:
+  /// **'تناول الإنسولين (ميتفورمين)'**
+  String get dashboard_actInsulin;
+
+  /// No description provided for @dashboard_act1hAgo.
+  ///
+  /// In ar, this message translates to:
+  /// **'قبل ساعة'**
+  String get dashboard_act1hAgo;
+
+  /// No description provided for @dashboard_actCompleted.
+  ///
+  /// In ar, this message translates to:
+  /// **'مكتمل'**
+  String get dashboard_actCompleted;
+
+  /// No description provided for @dashboard_actCheckup.
+  ///
+  /// In ar, this message translates to:
+  /// **'فحص دوري - د. أحمد'**
+  String get dashboard_actCheckup;
+
+  /// No description provided for @dashboard_actTomorrow.
+  ///
+  /// In ar, this message translates to:
+  /// **'غداً ١٠:٠٠ صباحاً'**
+  String get dashboard_actTomorrow;
+
+  /// No description provided for @dashboard_actUpcoming.
+  ///
+  /// In ar, this message translates to:
+  /// **'قادم'**
+  String get dashboard_actUpcoming;
+
+  /// No description provided for @dashboard_vitalBP.
+  ///
+  /// In ar, this message translates to:
+  /// **'ضغط الدم'**
+  String get dashboard_vitalBP;
+
+  /// No description provided for @dashboard_vitalSugar.
+  ///
+  /// In ar, this message translates to:
+  /// **'السكر'**
+  String get dashboard_vitalSugar;
+
+  /// No description provided for @dashboard_vitalHR.
+  ///
+  /// In ar, this message translates to:
+  /// **'نبض القلب'**
+  String get dashboard_vitalHR;
+
+  /// No description provided for @dashboard_vitalO2.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأكسجين'**
+  String get dashboard_vitalO2;
+
+  /// No description provided for @nav_home.
+  ///
+  /// In ar, this message translates to:
+  /// **'الرئيسية'**
+  String get nav_home;
+
+  /// No description provided for @nav_assistant.
+  ///
+  /// In ar, this message translates to:
+  /// **'المساعد'**
+  String get nav_assistant;
+
+  /// No description provided for @nav_services.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخدمات'**
+  String get nav_services;
+
+  /// No description provided for @nav_reports.
+  ///
+  /// In ar, this message translates to:
+  /// **'التقارير'**
+  String get nav_reports;
+
+  /// No description provided for @nav_profile.
+  ///
+  /// In ar, this message translates to:
+  /// **'الملف'**
+  String get nav_profile;
+
+  /// No description provided for @welcome_subtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'نظام الرعاية المتكاملة'**
+  String get welcome_subtitle;
+
+  /// No description provided for @welcome_tagline.
+  ///
+  /// In ar, this message translates to:
+  /// **'سندك الذكي لرعاية من تحب..'**
+  String get welcome_tagline;
+
+  /// No description provided for @welcome_tagline2.
+  ///
+  /// In ar, this message translates to:
+  /// **'طمأنينة لك، وعناية تليق بهم.'**
+  String get welcome_tagline2;
+
+  /// No description provided for @welcome_getStarted.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ الآن'**
+  String get welcome_getStarted;
+
+  /// No description provided for @welcome_footer.
+  ///
+  /// In ar, this message translates to:
+  /// **'Care Reimagined • Yameenak Saudi Arabia'**
+  String get welcome_footer;
+
+  /// No description provided for @password_tooShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة المرور يجب أن تكون 8 أحرف على الأقل'**
+  String get password_tooShort;
+
+  /// No description provided for @password_needsUppercase.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة المرور يجب أن تحتوي على حرف كبير واحد على الأقل'**
+  String get password_needsUppercase;
+
+  /// No description provided for @password_needsDigit.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة المرور يجب أن تحتوي على رقم واحد على الأقل'**
+  String get password_needsDigit;
+
+  /// No description provided for @reports_generating.
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ إنشاء التقرير...'**
+  String get reports_generating;
+
+  /// No description provided for @setup_featureComingSoon.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه الميزة قادمة قريباً!'**
+  String get setup_featureComingSoon;
+
+  /// No description provided for @setup_stepOf.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطوة {current} من {total}'**
+  String setup_stepOf(int current, int total);
+
+  /// No description provided for @setup_progressSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'يتم الحفظ تلقائياً'**
+  String get setup_progressSaved;
+
+  /// No description provided for @setup_nextDiseases.
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي: الأمراض المزمنة'**
+  String get setup_nextDiseases;
+
+  /// No description provided for @setup_nextMeds.
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي: الأدوية'**
+  String get setup_nextMeds;
+
+  /// No description provided for @setup_nextEmergency.
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي: جهات الطوارئ'**
+  String get setup_nextEmergency;
+
+  /// No description provided for @setup_welcomeCaregiver.
+  ///
+  /// In ar, this message translates to:
+  /// **'مرحباً، مقدّم الرعاية'**
+  String get setup_welcomeCaregiver;
+
+  /// No description provided for @setup_settingUpProfile.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنت تقوم بإعداد\nملف الشخص العزيز عليك.'**
+  String get setup_settingUpProfile;
+
+  /// No description provided for @setup_tailorExperience.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه المعلومات تساعدنا في تخصيص تجربة الرعاية الصحية حسب احتياجاتهم البيولوجية والصحية.'**
+  String get setup_tailorExperience;
+
+  /// No description provided for @setup_enterFullName.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل الاسم الكامل'**
+  String get setup_enterFullName;
+
+  /// No description provided for @setup_ageInYears.
+  ///
+  /// In ar, this message translates to:
+  /// **'العمر بالسنوات'**
+  String get setup_ageInYears;
+
+  /// No description provided for @setup_gender.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجنس'**
+  String get setup_gender;
+
+  /// No description provided for @setup_male.
+  ///
+  /// In ar, this message translates to:
+  /// **'ذكر'**
+  String get setup_male;
+
+  /// No description provided for @setup_female.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنثى'**
+  String get setup_female;
+
+  /// No description provided for @setup_whyMattersLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'لماذا هذا مهم: '**
+  String get setup_whyMattersLabel;
+
+  /// No description provided for @setup_whyBasicInfo.
+  ///
+  /// In ar, this message translates to:
+  /// **'تقديم معلومات أساسية دقيقة يسمح لنظام الذكاء الاصطناعي بحساب مستويات الجرعات الصحيحة وعوامل الخطورة الصحية بناءً على المعايير الديموغرافية.'**
+  String get setup_whyBasicInfo;
+
+  /// No description provided for @setup_allergyHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: بنسلين، فول سوداني، لاتكس...'**
+  String get setup_allergyHint;
+
+  /// No description provided for @setup_addAllergyBtn.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة حساسية'**
+  String get setup_addAllergyBtn;
+
+  /// No description provided for @setup_whyMattersQ.
+  ///
+  /// In ar, this message translates to:
+  /// **'لماذا هذا مهم؟'**
+  String get setup_whyMattersQ;
+
+  /// No description provided for @setup_whyMedHistory.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخك الطبي يساعد نظام الرعاية الذكية لدينا على منع التداخلات الدوائية وتصميم خطة التغذية خصيصاً لاحتياجاتك.'**
+  String get setup_whyMedHistory;
+
+  /// No description provided for @setup_medNameLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم الدواء'**
+  String get setup_medNameLabel;
+
+  /// No description provided for @setup_doseHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: 500 ملجم، مرتين يومياً'**
+  String get setup_doseHint;
+
+  /// No description provided for @setup_doseLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجرعة والتكرار'**
+  String get setup_doseLabel;
+
+  /// No description provided for @setup_addMedBtn.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة دواء'**
+  String get setup_addMedBtn;
+
+  /// No description provided for @setup_aiTip.
+  ///
+  /// In ar, this message translates to:
+  /// **'نصيحة المساعد الذكي'**
+  String get setup_aiTip;
+
+  /// No description provided for @setup_aiTipDetail.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدقة مهمة. إذا لم تكن متأكداً من الجرعة، استخدم ميزة تحميل الصور ليتحقق نظامنا الطبي الذكي من التفاصيل.'**
+  String get setup_aiTipDetail;
+
+  /// No description provided for @setup_uploadPrescription.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحميل الوصفة الطبية'**
+  String get setup_uploadPrescription;
+
+  /// No description provided for @setup_aiExtractInfo.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيقوم الذكاء الاصطناعي باستخراج أسماء الأدوية والجرعات والجداول.'**
+  String get setup_aiExtractInfo;
+
+  /// No description provided for @setup_browseFiles.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصفح الملفات'**
+  String get setup_browseFiles;
+
+  /// No description provided for @setup_contactNameLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم جهة الاتصال'**
+  String get setup_contactNameLabel;
+
+  /// No description provided for @setup_relationLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'صلة القرابة'**
+  String get setup_relationLabel;
+
+  /// No description provided for @setup_phoneLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الهاتف'**
+  String get setup_phoneLabel;
+
+  /// No description provided for @setup_addAnotherContact.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة جهة اتصال أخرى'**
+  String get setup_addAnotherContact;
+
+  /// No description provided for @setup_optionalSettings.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعدادات اختيارية'**
+  String get setup_optionalSettings;
+
+  /// No description provided for @setup_dailyCareFeature.
+  ///
+  /// In ar, this message translates to:
+  /// **'ميزة الرعاية اليومية'**
+  String get setup_dailyCareFeature;
+
+  /// No description provided for @setup_vitalsLogging.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل المؤشرات الحيوية'**
+  String get setup_vitalsLogging;
+
+  /// No description provided for @setup_vitalsLoggingDetail.
+  ///
+  /// In ar, this message translates to:
+  /// **'بمجرد تفعيل ملفك، سنساعدك في تسجيل القراءات الحيوية مثل السكر والضغط يومياً.'**
+  String get setup_vitalsLoggingDetail;
+
+  /// No description provided for @setup_dataPrivacy.
+  ///
+  /// In ar, this message translates to:
+  /// **'خصوصية وأمان البيانات'**
+  String get setup_dataPrivacy;
+
+  /// No description provided for @setup_dataPrivacyDetail.
+  ///
+  /// In ar, this message translates to:
+  /// **'بياناتك الطبية مشفّرة ولا تُشارك إلا مع فريقك الطبي المعتمد وأفراد أسرتك.'**
+  String get setup_dataPrivacyDetail;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

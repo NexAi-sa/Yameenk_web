@@ -2,141 +2,155 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../app/theme.dart';
 import '../../core/responsive_scaffold.dart';
 import '../../main.dart';
-import '../../services/consent_service.dart';
+import '../../features/privacy/domain/entities/consent_entity.dart';
+import '../../features/privacy/presentation/cubit/consent_cubit.dart';
+import '../../features/privacy/presentation/cubit/consent_state.dart';
 
-class ConsentScreen extends ConsumerStatefulWidget {
+class ConsentScreen extends StatefulWidget {
   const ConsentScreen({super.key});
 
   @override
-  ConsumerState<ConsentScreen> createState() => _ConsentScreenState();
+  State<ConsentScreen> createState() => _ConsentScreenState();
 }
 
-class _ConsentScreenState extends ConsumerState<ConsentScreen> {
+class _ConsentScreenState extends State<ConsentScreen> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(consentProvider);
     final l = context.l10n;
 
-    return Scaffold(
-      body: SafeArea(
-        child: ResponsiveCenter(
-          maxWidth: 600,
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: AppSpacing.xl),
+    return BlocBuilder<ConsentCubit, ConsentState>(
+      builder: (context, state) {
+        final consents = state is ConsentLoaded
+            ? state.consent.consents
+            : <ConsentType, bool>{};
+        final isLoading = state is ConsentSubmitting;
 
-                // Shield icon
-                const Icon(Icons.shield_outlined,
-                    size: 64, color: AppColors.primary),
-                const SizedBox(height: AppSpacing.lg),
+        return Scaffold(
+          body: SafeArea(
+            child: ResponsiveCenter(
+              maxWidth: 600,
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: AppSpacing.xl),
 
-                Text(l.consent_protectTitle,
-                    style: AppTextStyles.heading1,
-                    textAlign: TextAlign.center),
-                const SizedBox(height: AppSpacing.sm),
-                Text(l.consent_protectSubtitle,
-                    style: AppTextStyles.bodySecondary,
-                    textAlign: TextAlign.center),
+                    // Shield icon
+                    const Icon(Icons.shield_outlined,
+                        size: 64, color: AppColors.primary),
+                    const SizedBox(height: AppSpacing.lg),
 
-                const SizedBox(height: AppSpacing.xl),
+                    Text(l.consent_protectTitle,
+                        style: AppTextStyles.heading1,
+                        textAlign: TextAlign.center),
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(l.consent_protectSubtitle,
+                        style: AppTextStyles.bodySecondary,
+                        textAlign: TextAlign.center),
 
-                // Content
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        // Essential consents
-                        _SectionHeader(
-                          title: l.consent_essential,
-                          subtitle: l.consent_essentialSub,
-                          color: AppColors.primary,
+                    const SizedBox(height: AppSpacing.xl),
+
+                    // Content
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            // Essential consents
+                            _SectionHeader(
+                              title: l.consent_essential,
+                              subtitle: l.consent_essentialSub,
+                              color: AppColors.primary,
+                            ),
+                            ...ConsentType.values
+                                .where((t) => t.isEssential)
+                                .map((t) => _ConsentTile(
+                                      type: t,
+                                      value: consents[t] ?? false,
+                                      onChanged: (v) => context
+                                          .read<ConsentCubit>()
+                                          .toggle(t, v),
+                                    )),
+
+                            const SizedBox(height: AppSpacing.xl),
+
+                            // Optional consents
+                            _SectionHeader(
+                              title: l.consent_optional,
+                              subtitle: l.consent_optionalSub,
+                              color: AppColors.secondary,
+                            ),
+                            ...ConsentType.values
+                                .where((t) => !t.isEssential)
+                                .map((t) => _ConsentTile(
+                                      type: t,
+                                      value: consents[t] ?? false,
+                                      onChanged: (v) => context
+                                          .read<ConsentCubit>()
+                                          .toggle(t, v),
+                                    )),
+
+                            const SizedBox(height: AppSpacing.lg),
+
+                            // Privacy policy link
+                            TextButton.icon(
+                              onPressed: () => context.push('/privacy-settings'),
+                              icon: const Icon(Icons.privacy_tip_outlined),
+                              label: Text(l.consent_readPrivacy),
+                            ),
+
+                            Text(l.consent_withdrawNote,
+                                style: AppTextStyles.caption,
+                                textAlign: TextAlign.center),
+                          ],
                         ),
-                        ...ConsentType.values
-                            .where((t) => t.isEssential)
-                            .map((t) => _ConsentTile(
-                                  type: t,
-                                  value: state.consents[t] ?? false,
-                                  onChanged: (v) => ref
-                                      .read(consentProvider.notifier)
-                                      .toggleConsent(t, v),
-                                )),
-
-                        const SizedBox(height: AppSpacing.xl),
-
-                        // Optional consents
-                        _SectionHeader(
-                          title: l.consent_optional,
-                          subtitle: l.consent_optionalSub,
-                          color: AppColors.secondary,
-                        ),
-                        ...ConsentType.values
-                            .where((t) => !t.isEssential)
-                            .map((t) => _ConsentTile(
-                                  type: t,
-                                  value: state.consents[t] ?? false,
-                                  onChanged: (v) => ref
-                                      .read(consentProvider.notifier)
-                                      .toggleConsent(t, v),
-                                )),
-
-                        const SizedBox(height: AppSpacing.lg),
-
-                        // Privacy policy link
-                        TextButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.privacy_tip_outlined),
-                          label: Text(l.consent_readPrivacy),
-                        ),
-
-                        Text(l.consent_withdrawNote,
-                            style: AppTextStyles.caption,
-                            textAlign: TextAlign.center),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
 
-                const SizedBox(height: AppSpacing.lg),
+                    const SizedBox(height: AppSpacing.lg),
 
-                // Submit button
-                ElevatedButton(
-                  onPressed: state.isLoading ? null : () => _submit(),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: state.isLoading
-                      ? const SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2.5,
-                          ),
-                        )
-                      : Text(l.consent_agreeStart,
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
+                    // Submit button
+                    ElevatedButton(
+                      onPressed: isLoading ? null : () => _submit(context),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      child: isLoading
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2.5,
+                              ),
+                            )
+                          : Text(l.consent_agreeStart,
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  Future<void> _submit() async {
-    final state = ref.read(consentProvider);
-    if (!state.essentialConsentsGranted) {
+  Future<void> _submit(BuildContext context) async {
+    final cubit = context.read<ConsentCubit>();
+    final state = cubit.state;
+    if (state is! ConsentLoaded) return;
+
+    if (!state.consent.essentialConsentsGranted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(context.l10n.consent_errorRequired,
@@ -150,15 +164,19 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
       return;
     }
 
-    final success =
-        await ref.read(consentProvider.notifier).submitConsents();
-    if (success && mounted) {
-      context.go('/family');
-    } else if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
+    final errorMsg = context.l10n.consent_errorSave;
+    final success = await cubit.submit();
+    if (!mounted) return;
+    if (success) {
+      // Persist consent acceptance for the route guard (PDPL).
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('pdpl_consent_completed_sp', true);
+      if (!mounted) return;
+      this.context.go('/family');
+    } else {
+      ScaffoldMessenger.of(this.context).showSnackBar(
         SnackBar(
-          content: Text(context.l10n.consent_errorSave,
-              textAlign: TextAlign.right),
+          content: Text(errorMsg, textAlign: TextAlign.right),
           backgroundColor: AppColors.danger,
           behavior: SnackBarBehavior.floating,
           shape:

@@ -12,9 +12,12 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  # State management
-  flutter_riverpod: ^2.5.1
-  riverpod_annotation: ^2.3.5
+  # State management — BLoC / Cubit
+  flutter_bloc: ^8.1.6
+  equatable: ^2.0.5
+
+  # Functional error handling
+  dartz: ^0.10.1
 
   # Navigation
   go_router: ^14.2.0
@@ -49,9 +52,6 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^4.0.0
   build_runner: ^2.4.11
-  riverpod_generator: ^2.4.3
-  custom_lint: ^0.7.6
-  riverpod_lint: ^2.6.4
   flutter_launcher_icons: ^0.14.4
 
 flutter:
@@ -78,4 +78,3 @@ flutter_launcher_icons:
   image_path: "assets/images/Yameenk_icon.jpeg"
   min_sdk_android: 21
   remove_alpha_ios: true
-

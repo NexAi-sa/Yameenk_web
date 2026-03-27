@@ -2,81 +2,99 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/theme.dart';
 import '../../core/responsive_scaffold.dart';
 import '../../main.dart';
-import '../../models/patient.dart';
-import '../../providers/patient_provider.dart';
+import '../../features/medical_profile/domain/entities/medical_profile_entity.dart';
+import '../../features/medical_profile/presentation/cubit/medical_profile_cubit.dart';
+import '../../features/medical_profile/presentation/cubit/medical_profile_state.dart';
 
-class MedicalProfileScreen extends ConsumerWidget {
+class MedicalProfileScreen extends StatelessWidget {
   const MedicalProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final patientAsync = ref.watch(patientProvider);
+  Widget build(BuildContext context) {
     final l = context.l10n;
 
     return Scaffold(
       appBar: AppBar(title: Text(l.profile_title)),
-      body: patientAsync.when(
-        data: (patient) => ResponsiveCenter(
-          maxWidth: 800,
-          child: SingleChildScrollView(
-            padding: AppSpacing.screenPadding,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Completion banner
-                if (patient.profileCompletionPercent < 100)
-                  _CompletionBanner(
-                    percent: patient.profileCompletionPercent,
-                    onTap: () => context.go('/patient/profile/setup'),
+      body: BlocBuilder<MedicalProfileCubit, MedicalProfileState>(
+        builder: (context, state) {
+          if (state is MedicalProfileLoading ||
+              state is MedicalProfileInitial) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is MedicalProfileError) {
+            return Center(child: Text(l.common_error(state.message)));
+          }
+          if (state is! MedicalProfileLoaded) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final profile = state.profile;
+          final completionPercent =
+              (profile.completionPercent * 100).round();
+
+          return ResponsiveCenter(
+            maxWidth: 800,
+            child: SingleChildScrollView(
+              padding: AppSpacing.screenPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Completion banner
+                  if (completionPercent < 100)
+                    _CompletionBanner(
+                      percent: completionPercent,
+                      onTap: () =>
+                          context.go('/patient/profile/setup'),
+                    ),
+
+                  const SizedBox(height: AppSpacing.md),
+
+                  // Basic info
+                  _BasicInfoCard(profile: profile),
+
+                  const SizedBox(height: AppSpacing.md),
+
+                  // Diseases
+                  _SectionCard(
+                    title: l.profile_diseases,
+                    icon: Icons.medical_information_outlined,
+                    emptyText: l.profile_diseasesEmpty,
+                    items: profile.diseases.map((d) => d.name).toList(),
                   ),
 
-                const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.md),
 
-                // Basic info
-                _BasicInfoCard(patient: patient),
+                  // Allergies
+                  _SectionCard(
+                    title: l.profile_allergies,
+                    icon: Icons.warning_amber_rounded,
+                    emptyText: l.profile_allergiesEmpty,
+                    items:
+                        profile.allergies.map((a) => a.name).toList(),
+                  ),
 
-                const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.md),
 
-                // Diseases
-                _SectionCard(
-                  title: l.profile_diseases,
-                  icon: Icons.medical_information_outlined,
-                  emptyText: l.profile_diseasesEmpty,
-                  items: patient.conditions,
-                ),
+                  // Medications
+                  _MedicationsCard(
+                      medications: profile.medications),
 
-                const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.md),
 
-                // Allergies
-                _SectionCard(
-                  title: l.profile_allergies,
-                  icon: Icons.warning_amber_rounded,
-                  emptyText: l.profile_allergiesEmpty,
-                  items: patient.allergies ?? [],
-                ),
+                  // Emergency contacts
+                  _EmergencyCard(
+                      contacts: profile.emergencyContacts),
 
-                const SizedBox(height: AppSpacing.md),
-
-                // Medications
-                _MedicationsCard(medications: patient.medications ?? []),
-
-                const SizedBox(height: AppSpacing.md),
-
-                // Emergency contacts
-                _EmergencyCard(contacts: patient.emergencyContacts ?? []),
-
-                const SizedBox(height: AppSpacing.xxl),
-              ],
+                  const SizedBox(height: AppSpacing.xxl),
+                ],
+              ),
             ),
-          ),
-        ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text(l.common_error(e.toString()))),
+          );
+        },
       ),
     );
   }
@@ -118,7 +136,8 @@ class _CompletionBanner extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   l.profile_completePercent(percent),
-                  style: TextStyle(color: Colors.white.withValues(alpha: 0.85)),
+                  style:
+                      TextStyle(color: Colors.white.withValues(alpha: 0.85)),
                 ),
               ],
             ),
@@ -140,9 +159,9 @@ class _CompletionBanner extends StatelessWidget {
 }
 
 class _BasicInfoCard extends StatelessWidget {
-  final Patient patient;
+  final MedicalProfileEntity profile;
 
-  const _BasicInfoCard({required this.patient});
+  const _BasicInfoCard({required this.profile});
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +179,9 @@ class _BasicInfoCard extends StatelessWidget {
                   radius: 28,
                   backgroundColor: AppColors.primaryLight,
                   child: Text(
-                    patient.name.isNotEmpty ? patient.name[0] : '؟',
+                    profile.fullName.isNotEmpty
+                        ? profile.fullName[0]
+                        : '؟',
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -173,8 +194,9 @@ class _BasicInfoCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(patient.name, style: AppTextStyles.heading3),
-                      Text(l.common_years(patient.age),
+                      Text(profile.fullName,
+                          style: AppTextStyles.heading3),
+                      Text(l.common_years(profile.age),
                           style: AppTextStyles.caption),
                     ],
                   ),
@@ -188,20 +210,20 @@ class _BasicInfoCard extends StatelessWidget {
                 Expanded(
                     child: _InfoChip(
                         label: l.profile_bloodType,
-                        value: patient.bloodType ?? '—')),
+                        value: profile.bloodType ?? '—')),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                     child: _InfoChip(
                         label: l.profile_height,
-                        value: patient.height != null
-                            ? '${patient.height} ${l.common_cm}'
+                        value: profile.height != null
+                            ? '${profile.height!.toStringAsFixed(0)} ${l.common_cm}'
                             : '—')),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                     child: _InfoChip(
                         label: l.profile_weight,
-                        value: patient.weight != null
-                            ? '${patient.weight} ${l.common_kg}'
+                        value: profile.weight != null
+                            ? '${profile.weight!.toStringAsFixed(0)} ${l.common_kg}'
                             : '—')),
               ],
             ),
@@ -278,7 +300,7 @@ class _SectionCard extends StatelessWidget {
                     .map((item) => Chip(
                           label: Text(item),
                           backgroundColor: AppColors.primaryLight,
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                             color: AppColors.primary,
                             fontSize: 13,
                           ),
@@ -295,7 +317,7 @@ class _SectionCard extends StatelessWidget {
 }
 
 class _MedicationsCard extends StatelessWidget {
-  final List<Medication> medications;
+  final List<MedicationEntity> medications;
 
   const _MedicationsCard({required this.medications});
 
@@ -329,18 +351,12 @@ class _MedicationsCard extends StatelessWidget {
                       color: AppColors.surfaceContainerLow,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(m.name, style: AppTextStyles.label),
-                              Text('${m.dosage} — ${m.frequency}',
-                                  style: AppTextStyles.caption),
-                            ],
-                          ),
-                        ),
+                        Text(m.name, style: AppTextStyles.label),
+                        Text('${m.dosage} — ${m.frequency}',
+                            style: AppTextStyles.caption),
                       ],
                     ),
                   )),
@@ -352,7 +368,7 @@ class _MedicationsCard extends StatelessWidget {
 }
 
 class _EmergencyCard extends StatelessWidget {
-  final List<EmergencyContact> contacts;
+  final List<EmergencyContactEntity> contacts;
 
   const _EmergencyCard({required this.contacts});
 

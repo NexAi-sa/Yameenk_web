@@ -728,4 +728,268 @@ class SAr extends S {
 
   @override
   String get language_toggle => 'English';
+
+  @override
+  String get disclaimer_title => 'إخلاء مسؤولية طبية';
+
+  @override
+  String get disclaimer_point1 =>
+      'هذا التطبيق لا يقدم تشخيصاً طبياً ولا يُغني عن استشارة الطبيب المختص.';
+
+  @override
+  String get disclaimer_point2 =>
+      'جميع القراءات والتنبيهات هي لأغراض المتابعة فقط ولا تمثل رأياً طبياً.';
+
+  @override
+  String get disclaimer_point3 =>
+      'في حالات الطوارئ، يجب التوجه فوراً إلى أقرب مستشفى أو الاتصال بالرقم 997.';
+
+  @override
+  String get disclaimer_accept => 'قرأتُ وأوافق';
+
+  @override
+  String get disclaimer_footer =>
+      'باستخدامك التطبيق فإنك توافق على أن يمينك أداة متابعة فقط وليست بديلاً عن الرعاية الطبية.';
+
+  @override
+  String get chat_aiDisclaimer =>
+      '⚕️ أثير مساعد صحي ذكي وليس طبيباً. لا يقدم وصفات طبية. استشر طبيبك دائماً في القرارات الطبية.';
+
+  @override
+  String get privacy_noDataSelling =>
+      'بياناتك الصحية لا تُباع ولا تُشارك مع أي طرف ثالث لأغراض إعلانية أو تجارية.';
+
+  @override
+  String get dashboard_lastUpdated => 'آخر تحديث: قبل ٥ دقائق';
+
+  @override
+  String get dashboard_recentActivities => 'الأنشطة الأخيرة';
+
+  @override
+  String get dashboard_viewAll => 'عرض الكل';
+
+  @override
+  String get dashboard_completeProfileBanner =>
+      'أكمل ملفك الطبي الآن للمتابعة الذكية.';
+
+  @override
+  String get dashboard_completeBtn => 'أكمل';
+
+  @override
+  String dashboard_patientStatus(String name) {
+    return 'حالة $name';
+  }
+
+  @override
+  String get dashboard_statusExcellent => 'مستقر وممتاز اليوم';
+
+  @override
+  String get dashboard_stablePulse => 'نبض مستقر';
+
+  @override
+  String get dashboard_talkToAI => 'تحدث مع المساعد الذكي';
+
+  @override
+  String get dashboard_aiSubtitle => 'استشارة طبية سريعة مع الذكاء الاصطناعي';
+
+  @override
+  String get dashboard_actInsulin => 'تناول الإنسولين (ميتفورمين)';
+
+  @override
+  String get dashboard_act1hAgo => 'قبل ساعة';
+
+  @override
+  String get dashboard_actCompleted => 'مكتمل';
+
+  @override
+  String get dashboard_actCheckup => 'فحص دوري - د. أحمد';
+
+  @override
+  String get dashboard_actTomorrow => 'غداً ١٠:٠٠ صباحاً';
+
+  @override
+  String get dashboard_actUpcoming => 'قادم';
+
+  @override
+  String get dashboard_vitalBP => 'ضغط الدم';
+
+  @override
+  String get dashboard_vitalSugar => 'السكر';
+
+  @override
+  String get dashboard_vitalHR => 'نبض القلب';
+
+  @override
+  String get dashboard_vitalO2 => 'الأكسجين';
+
+  @override
+  String get nav_home => 'الرئيسية';
+
+  @override
+  String get nav_assistant => 'المساعد';
+
+  @override
+  String get nav_services => 'الخدمات';
+
+  @override
+  String get nav_reports => 'التقارير';
+
+  @override
+  String get nav_profile => 'الملف';
+
+  @override
+  String get welcome_subtitle => 'نظام الرعاية المتكاملة';
+
+  @override
+  String get welcome_tagline => 'سندك الذكي لرعاية من تحب..';
+
+  @override
+  String get welcome_tagline2 => 'طمأنينة لك، وعناية تليق بهم.';
+
+  @override
+  String get welcome_getStarted => 'ابدأ الآن';
+
+  @override
+  String get welcome_footer => 'Care Reimagined • Yameenak Saudi Arabia';
+
+  @override
+  String get password_tooShort => 'كلمة المرور يجب أن تكون 8 أحرف على الأقل';
+
+  @override
+  String get password_needsUppercase =>
+      'كلمة المرور يجب أن تحتوي على حرف كبير واحد على الأقل';
+
+  @override
+  String get password_needsDigit =>
+      'كلمة المرور يجب أن تحتوي على رقم واحد على الأقل';
+
+  @override
+  String get reports_generating => 'جارٍ إنشاء التقرير...';
+
+  @override
+  String get setup_featureComingSoon => 'هذه الميزة قادمة قريباً!';
+
+  @override
+  String setup_stepOf(int current, int total) {
+    return 'الخطوة $current من $total';
+  }
+
+  @override
+  String get setup_progressSaved => 'يتم الحفظ تلقائياً';
+
+  @override
+  String get setup_nextDiseases => 'التالي: الأمراض المزمنة';
+
+  @override
+  String get setup_nextMeds => 'التالي: الأدوية';
+
+  @override
+  String get setup_nextEmergency => 'التالي: جهات الطوارئ';
+
+  @override
+  String get setup_welcomeCaregiver => 'مرحباً، مقدّم الرعاية';
+
+  @override
+  String get setup_settingUpProfile =>
+      'أنت تقوم بإعداد\nملف الشخص العزيز عليك.';
+
+  @override
+  String get setup_tailorExperience =>
+      'هذه المعلومات تساعدنا في تخصيص تجربة الرعاية الصحية حسب احتياجاتهم البيولوجية والصحية.';
+
+  @override
+  String get setup_enterFullName => 'أدخل الاسم الكامل';
+
+  @override
+  String get setup_ageInYears => 'العمر بالسنوات';
+
+  @override
+  String get setup_gender => 'الجنس';
+
+  @override
+  String get setup_male => 'ذكر';
+
+  @override
+  String get setup_female => 'أنثى';
+
+  @override
+  String get setup_whyMattersLabel => 'لماذا هذا مهم: ';
+
+  @override
+  String get setup_whyBasicInfo =>
+      'تقديم معلومات أساسية دقيقة يسمح لنظام الذكاء الاصطناعي بحساب مستويات الجرعات الصحيحة وعوامل الخطورة الصحية بناءً على المعايير الديموغرافية.';
+
+  @override
+  String get setup_allergyHint => 'مثال: بنسلين، فول سوداني، لاتكس...';
+
+  @override
+  String get setup_addAllergyBtn => 'إضافة حساسية';
+
+  @override
+  String get setup_whyMattersQ => 'لماذا هذا مهم؟';
+
+  @override
+  String get setup_whyMedHistory =>
+      'تاريخك الطبي يساعد نظام الرعاية الذكية لدينا على منع التداخلات الدوائية وتصميم خطة التغذية خصيصاً لاحتياجاتك.';
+
+  @override
+  String get setup_medNameLabel => 'اسم الدواء';
+
+  @override
+  String get setup_doseHint => 'مثال: 500 ملجم، مرتين يومياً';
+
+  @override
+  String get setup_doseLabel => 'الجرعة والتكرار';
+
+  @override
+  String get setup_addMedBtn => 'إضافة دواء';
+
+  @override
+  String get setup_aiTip => 'نصيحة المساعد الذكي';
+
+  @override
+  String get setup_aiTipDetail =>
+      'الدقة مهمة. إذا لم تكن متأكداً من الجرعة، استخدم ميزة تحميل الصور ليتحقق نظامنا الطبي الذكي من التفاصيل.';
+
+  @override
+  String get setup_uploadPrescription => 'تحميل الوصفة الطبية';
+
+  @override
+  String get setup_aiExtractInfo =>
+      'سيقوم الذكاء الاصطناعي باستخراج أسماء الأدوية والجرعات والجداول.';
+
+  @override
+  String get setup_browseFiles => 'تصفح الملفات';
+
+  @override
+  String get setup_contactNameLabel => 'اسم جهة الاتصال';
+
+  @override
+  String get setup_relationLabel => 'صلة القرابة';
+
+  @override
+  String get setup_phoneLabel => 'رقم الهاتف';
+
+  @override
+  String get setup_addAnotherContact => 'إضافة جهة اتصال أخرى';
+
+  @override
+  String get setup_optionalSettings => 'إعدادات اختيارية';
+
+  @override
+  String get setup_dailyCareFeature => 'ميزة الرعاية اليومية';
+
+  @override
+  String get setup_vitalsLogging => 'تسجيل المؤشرات الحيوية';
+
+  @override
+  String get setup_vitalsLoggingDetail =>
+      'بمجرد تفعيل ملفك، سنساعدك في تسجيل القراءات الحيوية مثل السكر والضغط يومياً.';
+
+  @override
+  String get setup_dataPrivacy => 'خصوصية وأمان البيانات';
+
+  @override
+  String get setup_dataPrivacyDetail =>
+      'بياناتك الطبية مشفّرة ولا تُشارك إلا مع فريقك الطبي المعتمد وأفراد أسرتك.';
 }

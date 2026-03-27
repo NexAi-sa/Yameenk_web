@@ -2,141 +2,164 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app/theme.dart';
 import '../../core/responsive_scaffold.dart';
 import '../../main.dart';
-import '../../services/api_service.dart';
-import '../../services/consent_service.dart';
-import '../../providers/auth_provider.dart';
+import '../../features/privacy/domain/entities/consent_entity.dart';
+import '../../features/privacy/presentation/cubit/consent_cubit.dart';
+import '../../features/privacy/presentation/cubit/consent_state.dart';
 
-class PrivacySettingsScreen extends ConsumerWidget {
+class PrivacySettingsScreen extends StatelessWidget {
   const PrivacySettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final consentState = ref.watch(consentProvider);
+  Widget build(BuildContext context) {
     final l = context.l10n;
 
     return Scaffold(
       appBar: AppBar(title: Text(l.privacy_title)),
-      body: ResponsiveCenter(
-        maxWidth: 700,
-        child: ListView(
-          padding: AppSpacing.screenPadding,
-          children: [
-            // PDPL header
-            Container(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              decoration: BoxDecoration(
-                color: AppColors.primaryLight,
-                borderRadius: BorderRadius.circular(AppDesign.cardRadius),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(l.privacy_pdplTitle,
-                            style: AppTextStyles.heading3),
-                        const SizedBox(height: 4),
-                        Text(l.privacy_pdplSubtitle,
-                            style: AppTextStyles.caption),
-                      ],
+      body: BlocBuilder<ConsentCubit, ConsentState>(
+        builder: (context, state) {
+          final consents = state is ConsentLoaded
+              ? state.consent.consents
+              : <ConsentType, bool>{};
+
+          return ResponsiveCenter(
+            maxWidth: 700,
+            child: ListView(
+              padding: AppSpacing.screenPadding,
+              children: [
+                // PDPL header
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryLight,
+                    borderRadius: BorderRadius.circular(AppDesign.cardRadius),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(l.privacy_pdplTitle,
+                                style: AppTextStyles.heading3),
+                            const SizedBox(height: 4),
+                            Text(l.privacy_pdplSubtitle,
+                                style: AppTextStyles.caption),
+                          ],
+                        ),
+                      ),
+                      const Icon(Icons.shield_outlined,
+                          size: 40, color: AppColors.primary),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.md),
+
+                // No data selling banner (App Store §5.1.2)
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  decoration: BoxDecoration(
+                    color: AppColors.success.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(AppDesign.cardRadius),
+                    border: Border.all(
+                      color: AppColors.success.withValues(alpha: 0.25),
                     ),
                   ),
-                  const Icon(Icons.shield_outlined,
-                      size: 40, color: AppColors.primary),
-                ],
-              ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.verified_user_rounded,
+                          size: 20, color: AppColors.success),
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: Text(
+                          l.privacy_noDataSelling,
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.success,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.xl),
+
+                // Manage consents
+                Text(l.privacy_manageConsents, style: AppTextStyles.heading2),
+                const SizedBox(height: AppSpacing.md),
+
+                ...ConsentType.values.map((t) => _ConsentSettingsTile(
+                      type: t,
+                      value: consents[t] ?? false,
+                    )),
+
+                const SizedBox(height: AppSpacing.xl),
+
+                // Your rights
+                Text(l.privacy_yourRights, style: AppTextStyles.heading2),
+                const SizedBox(height: AppSpacing.md),
+
+                _RightsTile(
+                  icon: Icons.download_rounded,
+                  title: l.privacy_downloadData,
+                  subtitle: l.privacy_downloadDataSub,
+                  onTap: () => _exportData(context),
+                ),
+
+                _RightsTile(
+                  icon: Icons.delete_forever_rounded,
+                  title: l.privacy_deleteAccount,
+                  subtitle: l.privacy_deleteAccountSub,
+                  danger: true,
+                  onTap: () => _showDeleteDialog(context),
+                ),
+
+                const SizedBox(height: AppSpacing.lg),
+
+                // Privacy policy link
+                TextButton.icon(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(l.privacy_exportError,
+                            textAlign: TextAlign.right),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.open_in_new_rounded),
+                  label: Text(l.privacy_policy),
+                ),
+
+                const SizedBox(height: AppSpacing.xxl),
+              ],
             ),
-
-            const SizedBox(height: AppSpacing.xl),
-
-            // Manage consents
-            Text(l.privacy_manageConsents, style: AppTextStyles.heading2),
-            const SizedBox(height: AppSpacing.md),
-
-            ...ConsentType.values.map((t) => _ConsentSettingsTile(
-                  type: t,
-                  value: consentState.consents[t] ?? false,
-                  ref: ref,
-                )),
-
-            const SizedBox(height: AppSpacing.xl),
-
-            // Your rights
-            Text(l.privacy_yourRights, style: AppTextStyles.heading2),
-            const SizedBox(height: AppSpacing.md),
-
-            _RightsTile(
-              icon: Icons.download_rounded,
-              title: l.privacy_downloadData,
-              subtitle: l.privacy_downloadDataSub,
-              onTap: () => _exportData(context, ref),
-            ),
-
-            _RightsTile(
-              icon: Icons.delete_forever_rounded,
-              title: l.privacy_deleteAccount,
-              subtitle: l.privacy_deleteAccountSub,
-              danger: true,
-              onTap: () => _showDeleteDialog(context, ref),
-            ),
-
-            const SizedBox(height: AppSpacing.lg),
-
-            // Privacy policy link
-            TextButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.open_in_new_rounded),
-              label: Text(l.privacy_policy),
-            ),
-
-            const SizedBox(height: AppSpacing.xxl),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
-  Future<void> _exportData(BuildContext context, WidgetRef ref) async {
-    final l = context.l10n;
-    try {
-      final api = ref.read(apiServiceProvider);
-      final patientId = ref.read(authProvider).patientId;
-      final data = await api.exportPatientData(patientId);
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              l.privacy_exportSuccess(data.keys.length),
-              textAlign: TextAlign.right,
-            ),
-            backgroundColor: AppColors.success,
-            behavior: SnackBarBehavior.floating,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-        );
-      }
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l.privacy_exportError, textAlign: TextAlign.right),
-            backgroundColor: AppColors.danger,
-            behavior: SnackBarBehavior.floating,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-        );
-      }
-    }
+  void _exportData(BuildContext context) {
+    // TODO: implement data export via API
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(context.l10n.privacy_exportError,
+            textAlign: TextAlign.right),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+    );
   }
 
-  void _showDeleteDialog(BuildContext context, WidgetRef ref) {
+  void _showDeleteDialog(BuildContext context) {
     final l = context.l10n;
     showDialog(
       context: context,
@@ -151,7 +174,7 @@ class PrivacySettingsScreen extends ConsumerWidget {
           TextButton(
             onPressed: () {
               Navigator.pop(ctx);
-              _confirmDelete(context, ref);
+              _confirmDelete(context);
             },
             style: TextButton.styleFrom(foregroundColor: AppColors.danger),
             child: Text(l.privacy_deleteConfirm),
@@ -161,7 +184,7 @@ class PrivacySettingsScreen extends ConsumerWidget {
     );
   }
 
-  void _confirmDelete(BuildContext context, WidgetRef ref) {
+  void _confirmDelete(BuildContext context) {
     final l = context.l10n;
     showDialog(
       context: context,
@@ -174,29 +197,21 @@ class PrivacySettingsScreen extends ConsumerWidget {
             child: Text(l.common_cancel),
           ),
           ElevatedButton(
-            onPressed: () async {
+            onPressed: () {
               Navigator.pop(ctx);
-              try {
-                final api = ref.read(apiServiceProvider);
-                await api.deleteAccount();
-                await ref.read(consentProvider.notifier).reset();
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l.privacy_deleteError,
-                          textAlign: TextAlign.right),
-                      backgroundColor: AppColors.danger,
-                      behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                    ),
-                  );
-                }
-              }
+              // TODO: implement account deletion via API
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(l.privacy_deleteError,
+                      textAlign: TextAlign.right),
+                  backgroundColor: AppColors.danger,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
+              );
             },
-            style:
-                ElevatedButton.styleFrom(backgroundColor: AppColors.danger),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.danger),
             child: Text(l.privacy_deleteFinal),
           ),
         ],
@@ -208,12 +223,10 @@ class PrivacySettingsScreen extends ConsumerWidget {
 class _ConsentSettingsTile extends StatelessWidget {
   final ConsentType type;
   final bool value;
-  final WidgetRef ref;
 
   const _ConsentSettingsTile({
     required this.type,
     required this.value,
-    required this.ref,
   });
 
   String _localizedLabel(BuildContext context) {
@@ -243,6 +256,7 @@ class _ConsentSettingsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
+    final label = _localizedLabel(context);
     return Container(
       margin: const EdgeInsets.only(bottom: AppSpacing.sm),
       decoration: BoxDecoration(
@@ -252,7 +266,7 @@ class _ConsentSettingsTile extends StatelessWidget {
       child: SwitchListTile(
         title: Row(
           children: [
-            Text(_localizedLabel(context), style: AppTextStyles.label),
+            Text(label, style: AppTextStyles.label),
             if (type.isEssential) ...[
               const SizedBox(width: 8),
               Container(
@@ -274,15 +288,14 @@ class _ConsentSettingsTile extends StatelessWidget {
         value: value,
         onChanged: (v) async {
           if (v) {
-            ref.read(consentProvider.notifier).toggleConsent(type, true);
+            context.read<ConsentCubit>().toggle(type, true);
           } else {
-            final success =
-                await ref.read(consentProvider.notifier).revokeConsent(type);
-            if (success && context.mounted) {
+            await context.read<ConsentCubit>().revoke(type);
+            if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    l.privacy_consentRevoked(_localizedLabel(context)),
+                    context.l10n.privacy_consentRevoked(label),
                     textAlign: TextAlign.right,
                   ),
                   behavior: SnackBarBehavior.floating,
@@ -353,7 +366,8 @@ class _RightsTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(Icons.chevron_left, color: AppColors.outline, size: 20),
+                const Icon(Icons.chevron_left,
+                    color: AppColors.outline, size: 20),
               ],
             ),
           ),

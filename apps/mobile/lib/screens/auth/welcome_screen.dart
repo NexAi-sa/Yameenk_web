@@ -1,7 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/theme.dart';
+import '../../l10n/app_localizations.dart';
+import '../../features/locale/presentation/cubit/locale_cubit.dart';
 import '../../widgets/app_logo.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -28,10 +31,10 @@ class WelcomeScreen extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: TextButton.icon(
                       onPressed: () {
-                        // TODO: تنفيذ تبديل اللغة
+                        context.read<LocaleCubit>().toggleLocale();
                       },
                       icon: const Icon(Icons.language, size: 20),
-                      label: const Text('English'),
+                      label: Text(S.of(context).language_toggle),
                       style: TextButton.styleFrom(
                         backgroundColor: AppColors.surfaceContainerLow,
                         padding: const EdgeInsets.symmetric(
@@ -119,15 +122,7 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                         child: const Text('ابدأ الآن', style: TextStyle(fontSize: 20)),
                       ),
-                      const SizedBox(height: AppSpacing.md),
-                      OutlinedButton(
-                        onPressed: () => context.go('/login'),
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: AppColors.surfaceContainerLowest,
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                        ),
-                        child: const Text('تسجيل الدخول', style: TextStyle(fontSize: 20)),
-                      ),
+
                     ],
                   ),
                   

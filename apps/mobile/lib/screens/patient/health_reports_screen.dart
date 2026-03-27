@@ -1,57 +1,83 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app/theme.dart';
 import '../../core/responsive_scaffold.dart';
 import '../../main.dart';
-import '../../models/health_report.dart';
-import '../../providers/reports_provider.dart';
+import '../../features/reports/domain/entities/health_report_entity.dart';
+import '../../features/reports/presentation/cubit/reports_cubit.dart';
+import '../../features/reports/presentation/cubit/reports_state.dart';
 import '../../widgets/plus_gate.dart';
 
 /// شاشة التقارير الصحية — Health Reports
-class HealthReportsScreen extends ConsumerWidget {
+class HealthReportsScreen extends StatelessWidget {
   const HealthReportsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final reportsAsync = ref.watch(healthReportsProvider);
+  Widget build(BuildContext context) {
     final l = context.l10n;
 
     return PlusGate(
       featureName: l.reports_title,
       child: Scaffold(
         appBar: AppBar(title: Text(l.reports_title)),
-        body: reportsAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, _) => Center(child: Text(l.common_error(e.toString()))),
-          data: (reports) => ResponsiveCenter(
-            maxWidth: 800,
-            child: ListView(
-              padding: AppSpacing.screenPadding,
-              children: [
-                // Quick summary (first report)
-                if (reports.isNotEmpty) ...[
-                  _SummaryCard(report: reports.first),
-                  const SizedBox(height: AppSpacing.xl),
-                ],
+        body: BlocBuilder<ReportsCubit, ReportsState>(
+          builder: (context, state) {
+            if (state is ReportsLoading || state is ReportsInitial) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state is ReportGenerating) {
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const CircularProgressIndicator(),
+                    const SizedBox(height: 16),
+                    Text(l.reports_generating,
+                        style: AppTextStyles.heading3),
+                    const SizedBox(height: 8),
+                    const SizedBox(
+                      width: 200,
+                      child: LinearProgressIndicator(),
+                    ),
+                  ],
+                ),
+              );
+            }
+            if (state is ReportsError) {
+              return Center(child: Text(l.common_error(state.message)));
+            }
+            final reports =
+                state is ReportsLoaded ? state.reports : <HealthReportEntity>[];
+            return ResponsiveCenter(
+              maxWidth: 800,
+              child: ListView(
+                padding: AppSpacing.screenPadding,
+                children: [
+                  // Quick summary (first report)
+                  if (reports.isNotEmpty) ...[
+                    _SummaryCard(report: reports.first),
+                    const SizedBox(height: AppSpacing.xl),
+                  ],
 
-                // Smart insights
-                if (reports.isNotEmpty &&
-                    reports.first.insights.isNotEmpty) ...[
-                  Text(l.reports_insights, style: AppTextStyles.heading2),
+                  // Smart insights
+                  if (reports.isNotEmpty &&
+                      reports.first.insights.isNotEmpty) ...[
+                    Text(l.reports_insights, style: AppTextStyles.heading2),
+                    const SizedBox(height: AppSpacing.md),
+                    ...reports.first.insights
+                        .map((i) => _InsightCard(insight: i)),
+                    const SizedBox(height: AppSpacing.xl),
+                  ],
+
+                  // Reports list
+                  Text(l.reports_previous, style: AppTextStyles.heading2),
                   const SizedBox(height: AppSpacing.md),
-                  ...reports.first.insights
-                      .map((i) => _InsightCard(insight: i)),
-                  const SizedBox(height: AppSpacing.xl),
+                  ...reports.map((r) => _ReportListTile(report: r)),
+                  const SizedBox(height: AppSpacing.xxl),
                 ],
-
-                // Reports list
-                Text(l.reports_previous, style: AppTextStyles.heading2),
-                const SizedBox(height: AppSpacing.md),
-                ...reports.map((r) => _ReportListTile(report: r)),
-                const SizedBox(height: AppSpacing.xxl),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -60,7 +86,7 @@ class HealthReportsScreen extends ConsumerWidget {
 
 // ── Quick Summary ──
 class _SummaryCard extends StatelessWidget {
-  final HealthReport report;
+  final HealthReportEntity report;
   const _SummaryCard({required this.report});
 
   @override
@@ -170,7 +196,7 @@ class _SummaryStatBadge extends StatelessWidget {
 
 // ── AI Insight Card ──
 class _InsightCard extends StatelessWidget {
-  final ReportInsight insight;
+  final ReportInsightEntity insight;
   const _InsightCard({required this.insight});
 
   @override
@@ -224,7 +250,7 @@ class _InsightCard extends StatelessWidget {
 
 // ── Report List Tile ──
 class _ReportListTile extends StatelessWidget {
-  final HealthReport report;
+  final HealthReportEntity report;
   const _ReportListTile({required this.report});
 
   @override

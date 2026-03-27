@@ -731,4 +731,269 @@ class SEn extends S {
 
   @override
   String get language_toggle => 'عربي';
+
+  @override
+  String get disclaimer_title => 'Medical Disclaimer';
+
+  @override
+  String get disclaimer_point1 =>
+      'This app does not provide medical diagnoses and is not a substitute for professional medical consultation.';
+
+  @override
+  String get disclaimer_point2 =>
+      'All readings and alerts are for monitoring purposes only and do not represent medical advice.';
+
+  @override
+  String get disclaimer_point3 =>
+      'In case of emergency, go immediately to the nearest hospital or call 997.';
+
+  @override
+  String get disclaimer_accept => 'I have read and agree';
+
+  @override
+  String get disclaimer_footer =>
+      'By using the app, you agree that Yameenak is a monitoring tool only and is not a substitute for medical care.';
+
+  @override
+  String get chat_aiDisclaimer =>
+      '⚕️ Atheer is a smart health assistant, not a doctor. It does not prescribe medications. Always consult your doctor for medical decisions.';
+
+  @override
+  String get privacy_noDataSelling =>
+      'Your health data is never sold or shared with third parties for advertising or commercial purposes.';
+
+  @override
+  String get dashboard_lastUpdated => 'Last updated: 5m ago';
+
+  @override
+  String get dashboard_recentActivities => 'Recent Activities';
+
+  @override
+  String get dashboard_viewAll => 'View All';
+
+  @override
+  String get dashboard_completeProfileBanner =>
+      'Complete your medical profile now for smart monitoring.';
+
+  @override
+  String get dashboard_completeBtn => 'Complete';
+
+  @override
+  String dashboard_patientStatus(String name) {
+    return '$name\'s Status';
+  }
+
+  @override
+  String get dashboard_statusExcellent => 'Stable and Excellent Today';
+
+  @override
+  String get dashboard_stablePulse => 'Stable Pulse';
+
+  @override
+  String get dashboard_talkToAI => 'Talk to AI Assistant';
+
+  @override
+  String get dashboard_aiSubtitle => 'Quick medical consultation with AI';
+
+  @override
+  String get dashboard_actInsulin => 'Taken Insulin (Metformin)';
+
+  @override
+  String get dashboard_act1hAgo => '1h ago';
+
+  @override
+  String get dashboard_actCompleted => 'Completed';
+
+  @override
+  String get dashboard_actCheckup => 'Routine Checkup - Dr. Ahmed';
+
+  @override
+  String get dashboard_actTomorrow => 'Tomorrow 10:00 AM';
+
+  @override
+  String get dashboard_actUpcoming => 'Upcoming';
+
+  @override
+  String get dashboard_vitalBP => 'B. Pressure';
+
+  @override
+  String get dashboard_vitalSugar => 'B. Sugar';
+
+  @override
+  String get dashboard_vitalHR => 'Heart Rate';
+
+  @override
+  String get dashboard_vitalO2 => 'Oxygen';
+
+  @override
+  String get nav_home => 'Home';
+
+  @override
+  String get nav_assistant => 'Assistant';
+
+  @override
+  String get nav_services => 'Services';
+
+  @override
+  String get nav_reports => 'Reports';
+
+  @override
+  String get nav_profile => 'Profile';
+
+  @override
+  String get welcome_subtitle => 'Integrated Care System';
+
+  @override
+  String get welcome_tagline =>
+      'Your smart support for caring for loved ones..';
+
+  @override
+  String get welcome_tagline2 =>
+      'Peace of mind for you, and care they deserve.';
+
+  @override
+  String get welcome_getStarted => 'Get Started';
+
+  @override
+  String get welcome_footer => 'Care Reimagined • Yameenak Saudi Arabia';
+
+  @override
+  String get password_tooShort => 'Password must be at least 8 characters';
+
+  @override
+  String get password_needsUppercase =>
+      'Password must contain at least one uppercase letter';
+
+  @override
+  String get password_needsDigit => 'Password must contain at least one digit';
+
+  @override
+  String get reports_generating => 'Generating Report...';
+
+  @override
+  String get setup_featureComingSoon => 'This feature is coming soon!';
+
+  @override
+  String setup_stepOf(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get setup_progressSaved => 'Progress saved automatically';
+
+  @override
+  String get setup_nextDiseases => 'Next Step: Chronic Diseases';
+
+  @override
+  String get setup_nextMeds => 'Next Step: Medications';
+
+  @override
+  String get setup_nextEmergency => 'Next Step: Emergency Contacts';
+
+  @override
+  String get setup_welcomeCaregiver => 'Welcome, Caregiver';
+
+  @override
+  String get setup_settingUpProfile =>
+      'You are setting up the\nprofile for your loved one.';
+
+  @override
+  String get setup_tailorExperience =>
+      'This information helps us tailor the medical sanctuary experience to their specific biological and health needs.';
+
+  @override
+  String get setup_enterFullName => 'Enter full legal name';
+
+  @override
+  String get setup_ageInYears => 'Age in years';
+
+  @override
+  String get setup_gender => 'Gender';
+
+  @override
+  String get setup_male => 'Male';
+
+  @override
+  String get setup_female => 'Female';
+
+  @override
+  String get setup_whyMattersLabel => 'Why this matters: ';
+
+  @override
+  String get setup_whyBasicInfo =>
+      'Providing accurate basic info allows our AI system to calculate the correct dosage levels and health risk factors based on demographic standards.';
+
+  @override
+  String get setup_allergyHint => 'e.g., Penicillin, Peanuts, Latex...';
+
+  @override
+  String get setup_addAllergyBtn => 'Add Allergy';
+
+  @override
+  String get setup_whyMattersQ => 'Why this matters?';
+
+  @override
+  String get setup_whyMedHistory =>
+      'Your medical history helps our AI-powered care system prevent drug interactions and tailor your nutrition plan specifically to your needs.';
+
+  @override
+  String get setup_medNameLabel => 'Medication Name';
+
+  @override
+  String get setup_doseHint => 'e.g., 500mg, twice daily';
+
+  @override
+  String get setup_doseLabel => 'Dose & Frequency';
+
+  @override
+  String get setup_addMedBtn => 'Add Medication';
+
+  @override
+  String get setup_aiTip => 'AI Assistant Tip';
+
+  @override
+  String get setup_aiTipDetail =>
+      'Accuracy is vital. If you\'re unsure about the dosage, use the photo upload feature to let our clinical AI verify the details for you.';
+
+  @override
+  String get setup_uploadPrescription => 'Upload Prescription';
+
+  @override
+  String get setup_aiExtractInfo =>
+      'Our AI will extract medicine names, dosages, and schedules.';
+
+  @override
+  String get setup_browseFiles => 'Browse Files';
+
+  @override
+  String get setup_contactNameLabel => 'Contact Name';
+
+  @override
+  String get setup_relationLabel => 'Relationship';
+
+  @override
+  String get setup_phoneLabel => 'Phone Number';
+
+  @override
+  String get setup_addAnotherContact => 'Add Another Contact';
+
+  @override
+  String get setup_optionalSettings => 'Optional settings';
+
+  @override
+  String get setup_dailyCareFeature => 'DAILY CARE FEATURE';
+
+  @override
+  String get setup_vitalsLogging => 'Vitals Logging';
+
+  @override
+  String get setup_vitalsLoggingDetail =>
+      'Once your profile is active, we\'ll help you log critical readings like Blood Sugar and Blood Pressure every day.';
+
+  @override
+  String get setup_dataPrivacy => 'Data Privacy & Security';
+
+  @override
+  String get setup_dataPrivacyDetail =>
+      'Your medical data is encrypted and shared only with your authorized medical team and family members.';
 }

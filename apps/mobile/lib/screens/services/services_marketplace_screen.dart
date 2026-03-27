@@ -2,34 +2,34 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app/theme.dart';
 import '../../core/responsive_utils.dart';
 import '../../core/responsive_scaffold.dart';
 import '../../main.dart';
-import '../../models/health_service.dart';
+import '../../features/services/domain/entities/health_service_entity.dart';
+import '../../features/services/presentation/cubit/services_cubit.dart';
+import '../../features/services/presentation/cubit/services_state.dart';
 import '../../widgets/plus_gate.dart';
 
-class ServicesMarketplaceScreen extends ConsumerStatefulWidget {
+class ServicesMarketplaceScreen extends StatefulWidget {
   const ServicesMarketplaceScreen({super.key});
 
   @override
-  ConsumerState<ServicesMarketplaceScreen> createState() =>
+  State<ServicesMarketplaceScreen> createState() =>
       _ServicesMarketplaceScreenState();
 }
 
 class _ServicesMarketplaceScreenState
-    extends ConsumerState<ServicesMarketplaceScreen> {
-  String _selectedCategory = 'all';
+    extends State<ServicesMarketplaceScreen> {
   String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
 
-    // Categories localized
     final categories = [
-      (key: 'all', label: l.services_catAll),
+      (key: 'الكل', label: l.services_catAll),
       (key: 'تمريض', label: l.services_catNursing),
       (key: 'علاج طبيعي', label: l.services_catPhysio),
       (key: 'مرافقة', label: l.services_catCompanion),
@@ -38,101 +38,113 @@ class _ServicesMarketplaceScreenState
       (key: 'صيدلية', label: l.services_catPharmacy),
     ];
 
-    final allServices = HealthService.mockList();
-    final filtered = allServices.where((s) {
-      final matchCategory =
-          _selectedCategory == 'all' || s.category == _selectedCategory;
-      final matchSearch =
-          _searchQuery.isEmpty || s.title.contains(_searchQuery);
-      return matchCategory && matchSearch;
-    }).toList();
-
     return PlusGate(
       featureName: l.services_title,
       child: Scaffold(
         appBar: AppBar(title: Text(l.services_title)),
-        body: ResponsiveCenter(
-          maxWidth: 900,
-          child: Column(
-            children: [
-              // Search bar
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.lg,
-                  vertical: AppSpacing.sm,
-                ),
-                child: TextField(
-                  textAlign: TextAlign.right,
-                  onChanged: (v) => setState(() => _searchQuery = v),
-                  decoration: InputDecoration(
-                    hintText: l.services_searchHint,
-                    prefixIcon: const Icon(Icons.search_rounded),
-                    isDense: true,
+        body: BlocBuilder<ServicesCubit, ServicesState>(
+          builder: (context, state) {
+            final selectedCategory = state is ServicesLoaded
+                ? state.selectedCategory
+                : 'الكل';
+            final baseServices = state is ServicesLoaded
+                ? state.filteredServices
+                : <HealthServiceEntity>[];
+            final filtered = _searchQuery.isEmpty
+                ? baseServices
+                : baseServices
+                    .where((s) => s.title.contains(_searchQuery))
+                    .toList();
+
+            return ResponsiveCenter(
+              maxWidth: 900,
+              child: Column(
+                children: [
+                  // Search bar
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.lg,
+                      vertical: AppSpacing.sm,
+                    ),
+                    child: TextField(
+                      textAlign: TextAlign.right,
+                      onChanged: (v) => setState(() => _searchQuery = v),
+                      decoration: InputDecoration(
+                        hintText: l.services_searchHint,
+                        prefixIcon: const Icon(Icons.search_rounded),
+                        isDense: true,
+                      ),
+                    ),
                   ),
-                ),
-              ),
 
-              // Category chips
-              SizedBox(
-                height: 48,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  reverse: true,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.lg),
-                  itemCount: categories.length,
-                  itemBuilder: (context, i) {
-                    final cat = categories[i];
-                    final selected = _selectedCategory == cat.key;
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: ChoiceChip(
-                        label: Text(cat.label),
-                        selected: selected,
-                        onSelected: (_) =>
-                            setState(() => _selectedCategory = cat.key),
-                        selectedColor: AppColors.primaryLight,
-                        backgroundColor: AppColors.surfaceContainerLow,
-                        labelStyle: TextStyle(
-                          color: selected
-                              ? AppColors.primary
-                              : AppColors.textSecondary,
-                          fontWeight:
-                              selected ? FontWeight.bold : FontWeight.normal,
-                        ),
-                        shape: const StadiumBorder(),
-                        side: BorderSide.none,
-                      ),
-                    );
-                  },
-                ),
-              ),
+                  // Category chips
+                  SizedBox(
+                    height: 48,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      reverse: true,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.lg),
+                      itemCount: categories.length,
+                      itemBuilder: (context, i) {
+                        final cat = categories[i];
+                        final selected = selectedCategory == cat.key;
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: ChoiceChip(
+                            label: Text(cat.label),
+                            selected: selected,
+                            onSelected: (_) => context
+                                .read<ServicesCubit>()
+                                .selectCategory(cat.key),
+                            selectedColor: AppColors.primaryLight,
+                            backgroundColor: AppColors.surfaceContainerLow,
+                            labelStyle: TextStyle(
+                              color: selected
+                                  ? AppColors.primary
+                                  : AppColors.textSecondary,
+                              fontWeight: selected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                            shape: const StadiumBorder(),
+                            side: BorderSide.none,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
 
-              const SizedBox(height: AppSpacing.sm),
+                  const SizedBox(height: AppSpacing.sm),
 
-              // Services grid
-              Expanded(
-                child: filtered.isEmpty
-                    ? Center(
-                        child: Text(l.services_noServices,
-                            style: AppTextStyles.bodySecondary),
-                      )
-                    : GridView.builder(
-                        padding: AppSpacing.screenPadding,
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: context.responsiveGridCount,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                          childAspectRatio: 0.85,
-                        ),
-                        itemCount: filtered.length,
-                        itemBuilder: (context, i) =>
-                            _ServiceCard(service: filtered[i]),
-                      ),
+                  // Services grid
+                  Expanded(
+                    child: state is ServicesLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : filtered.isEmpty
+                            ? Center(
+                                child: Text(l.services_noServices,
+                                    style: AppTextStyles.bodySecondary),
+                              )
+                            : GridView.builder(
+                                padding: AppSpacing.screenPadding,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount:
+                                      context.responsiveGridCount,
+                                  crossAxisSpacing: 12,
+                                  mainAxisSpacing: 12,
+                                  childAspectRatio: 0.85,
+                                ),
+                                itemCount: filtered.length,
+                                itemBuilder: (context, i) =>
+                                    _ServiceCard(service: filtered[i]),
+                              ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -140,7 +152,7 @@ class _ServicesMarketplaceScreenState
 }
 
 class _ServiceCard extends StatelessWidget {
-  final HealthService service;
+  final HealthServiceEntity service;
 
   const _ServiceCard({required this.service});
 
