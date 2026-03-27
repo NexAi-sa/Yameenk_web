@@ -2,9 +2,7 @@
   "name": "yameenak",
   "private": true,
   "workspaces": [
-    "apps/api",
-    "apps/web",
-    "packages/*"
+    "apps/web"
   ],
   "scripts": {
     "dev:api": "turbo run dev --filter=@yameenak/api",
