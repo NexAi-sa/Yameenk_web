@@ -1,0 +1,161 @@
+const dictionaries = {
+  ar: {
+    header: {
+      home: "الرئيسية",
+      features: "المميزات",
+      howItWorks: "كيف يعمل",
+      contactUs: "تواصل معنا",
+      downloadApp: "حمل التطبيق",
+    },
+    hero: {
+      badge: "أول نظام تشغيل للرعاية في السعودية",
+      headline: "سندك الذكي لرعاية من تحب..",
+      headlineHighlight: "طمأنينة لك، وعناية تليق بهم",
+      subheadline: "نظام تشغيل متكامل يربط بينك وبين والديك، يتنبأ باحتياجاتهم الصحية، ويوفر أفضل خدمات الرعاية المنزلية والنقل المتخصص.",
+      ctaWaitlist: "سجل في قائمة الانتظار",
+      ctaWhatsapp: "تواصل معنا عبر واتساب",
+    },
+    socialProof: {
+      title: "شركاؤنا في الرعاية:",
+    },
+    features: {
+      title: "رعاية متكاملة بذكاء واهتمام",
+      subtitle: "صممنا يمينك ليكون الحل الشامل لكل احتياجات كبار السن وذوي الاحتياجات الخاصة.",
+      items: [
+        { title: "الملف الطبي الموحد", description: "ذاكرة مركزية للأسرة تحفظ الأمراض المزمنة والأدوية وتشاركها مع مقدمي الرعاية." },
+        { title: "المتابعة الصحية الذكية", description: "جدول يومي لقراءات السكر والضغط مع سياسة (اللا ضجيج) - نرسل لك تنبيهات واتساب فورية فقط عند الخطر." },
+        { title: "تقارير الطمأنينة الأسبوعية", description: "ملخص أسبوعي مبسط يوضح اتجاهات الحالة الصحية لوالديك." },
+        { title: "سوق الرعاية الموثوق", description: "احجز خدمات التمريض المنزلي، النقل الطبي للمقعدين، والمرافق المدرب بضغطة زر." },
+      ],
+    },
+    howItWorks: {
+      title: "ثلاث خطوات لبداية الطمأنينة",
+      subtitle: "طريقك لرعاية أفضل تبدأ من هنا، بكل سهولة ويسر.",
+      steps: [
+        { title: "أنشئ ملف الوالد", description: "سجل بياناته الصحية، أدويته، واحتياجاته الخاصة في دقائق." },
+        { title: "اختر خدمة الرعاية", description: "تصفح مقدمي الخدمات الموثوقين واحجز الموعد المناسب." },
+        { title: "تابع حالته باطمئنان", description: "احصل على تحديثات فورية وتقارير أسبوعية عن صحته وجلساته." },
+      ],
+    },
+    finalCta: {
+      headline: "لا تترك رعايتهم للصدفة..",
+      headlineHighlight: "كن بجانبهم حتى وأنت بعيد.",
+      subtitle: "انضم إلى قائمة الانتظار وكن أول من يستمتع بتجربة الرعاية المبتكرة مع يمينك.",
+      ctaPrimary: "احجز مكانك الآن",
+      ctaSecondary: "تحدث مع فريقنا",
+    },
+    footer: {
+      tagline: "سندك الذكي لرعاية من تحب.. طمأنينة لك، وعناية تليق بهم.",
+      quickLinks: "روابط سريعة",
+      legal: "قانوني",
+      contactTitle: "تواصل معنا",
+      helpCenter: "مركز المساعدة",
+      terms: "شروط الاستخدام",
+      privacy: "سياسة الخصوصية",
+      copyright: "© 2026 يمينك - جميع الحقوق محفوظة لشركة نكساي للتقنية",
+    },
+    contact: {
+      title: "تواصل معنا",
+      subtitle: "نحن هنا للإجابة على استفساراتكم وتقديم الدعم اللازم.",
+      nameLabel: "الاسم بالكامل",
+      namePlaceholder: "نورة ...",
+      phoneLabel: "رقم الجوال",
+      phonePlaceholder: "05xxxxxxxx",
+      messageLabel: "الرسالة",
+      messagePlaceholder: "كيف يمكننا مساعدتك؟",
+      send: "إرسال الرسالة",
+      directChannels: "قنوات اتصال مباشرة",
+      whatsapp: "واتساب",
+      whatsappCta: "تحدث معنا مباشرة",
+      emailLabel: "البريد الإلكتروني",
+      workingHours: "ساعات العمل",
+      workingHoursText: "متاحون لخدمتكم على مدار الساعة من خلال قنوات الدعم الرقمية.",
+    },
+    terms: { title: "شروط الاستخدام" },
+    privacyPage: { title: "سياسة الخصوصية" },
+    langSwitch: "English",
+  },
+  en: {
+    header: {
+      home: "Home",
+      features: "Features",
+      howItWorks: "How it Works",
+      contactUs: "Contact Us",
+      downloadApp: "Download App",
+    },
+    hero: {
+      badge: "Saudi Arabia's First Care Operating System",
+      headline: "Your Smart Support for Caring for Your Loved Ones..",
+      headlineHighlight: "Peace of Mind for You, Dignity of Care for Them",
+      subheadline: "An integrated operating system that connects you with your parents, predicts their health needs, and provides the best home care and specialized transportation services.",
+      ctaWaitlist: "Join the Waitlist",
+      ctaWhatsapp: "Contact Us via WhatsApp",
+    },
+    socialProof: {
+      title: "Our Care Partners:",
+    },
+    features: {
+      title: "Comprehensive Care with Intelligence",
+      subtitle: "We designed Yameenak to be the all-in-one solution for elderly and special needs care.",
+      items: [
+        { title: "Unified Medical Profile", description: "A central family memory that stores chronic diseases, medications, and shares them with care providers." },
+        { title: "Smart Health Monitoring", description: "Daily tracking of blood sugar and pressure readings with a 'No Noise' policy — instant WhatsApp alerts only when danger is detected." },
+        { title: "Weekly Peace-of-Mind Reports", description: "A simple weekly summary showing health trends of your parents." },
+        { title: "Trusted Care Marketplace", description: "Book home nursing, wheelchair-accessible medical transport, and trained companions with one tap." },
+      ],
+    },
+    howItWorks: {
+      title: "Three Steps to Peace of Mind",
+      subtitle: "Your path to better care starts here, with ease and simplicity.",
+      steps: [
+        { title: "Create Parent Profile", description: "Register their health data, medications, and special needs in minutes." },
+        { title: "Choose a Care Service", description: "Browse trusted service providers and book the right appointment." },
+        { title: "Monitor with Peace of Mind", description: "Get instant updates and weekly reports on their health and sessions." },
+      ],
+    },
+    finalCta: {
+      headline: "Don't Leave Their Care to Chance..",
+      headlineHighlight: "Be by Their Side, Even from Afar.",
+      subtitle: "Join the waitlist and be the first to experience innovative care with Yameenak.",
+      ctaPrimary: "Reserve Your Spot",
+      ctaSecondary: "Talk to Our Team",
+    },
+    footer: {
+      tagline: "Your smart support for caring for your loved ones. Peace of mind for you, dignity of care for them.",
+      quickLinks: "Quick Links",
+      legal: "Legal",
+      contactTitle: "Contact Us",
+      helpCenter: "Help Center",
+      terms: "Terms of Service",
+      privacy: "Privacy Policy",
+      copyright: "© 2026 Yameenak — All rights reserved by NexAi Technology",
+    },
+    contact: {
+      title: "Contact Us",
+      subtitle: "We're here to answer your questions and provide the support you need.",
+      nameLabel: "Full Name",
+      namePlaceholder: "John...",
+      phoneLabel: "Phone Number",
+      phonePlaceholder: "05xxxxxxxx",
+      messageLabel: "Message",
+      messagePlaceholder: "How can we help you?",
+      send: "Send Message",
+      directChannels: "Direct Contact Channels",
+      whatsapp: "WhatsApp",
+      whatsappCta: "Chat with us directly",
+      emailLabel: "Email",
+      workingHours: "Working Hours",
+      workingHoursText: "Available 24/7 through our digital support channels.",
+    },
+    terms: { title: "Terms of Service" },
+    privacyPage: { title: "Privacy Policy" },
+    langSwitch: "العربية",
+  },
+};
+
+export type Locale = "ar" | "en";
+export type Dictionary = typeof dictionaries.ar;
+
+export function getDictionary(locale: Locale): Dictionary {
+  return dictionaries[locale] || dictionaries.ar;
+}
