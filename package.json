@@ -1,0 +1,28 @@
+{
+  "name": "yameenak",
+  "private": true,
+  "workspaces": [
+    "apps/api",
+    "apps/web",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:api": "turbo run dev --filter=@yameenak/api",
+    "build:api": "turbo run build --filter=@yameenak/api",
+    "test:api": "turbo run test --filter=@yameenak/api",
+    "lint:api": "turbo run lint --filter=@yameenak/api",
+    "mobile:run:ios": "cd apps/mobile && flutter run --flavor dev -t lib/main.dart",
+    "mobile:run:android": "cd apps/mobile && flutter run --flavor dev -t lib/main.dart -d android",
+    "mobile:build:ios": "cd apps/mobile && flutter build ipa --release",
+    "mobile:build:apk": "cd apps/mobile && flutter build apk --release",
+    "mobile:test": "cd apps/mobile && flutter test",
+    "db:push": "supabase db push",
+    "db:reset": "supabase db reset"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0",
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  },
+  "packageManager": "npm@10.0.0"
+}

@@ -1,0 +1,81 @@
+name: yameenak_mobile
+description: يمينك — نظام تشغيل الرعاية المتكاملة
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: '>=3.19.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  # Navigation
+  go_router: ^14.2.0
+
+  # HTTP
+  dio: ^5.4.3
+
+  # Secure storage (JWT tokens)
+  flutter_secure_storage: ^9.2.2
+
+  # Charts
+  fl_chart: ^0.68.0
+
+  # Push notifications
+  firebase_messaging: ^15.1.0
+  flutter_local_notifications: ^17.2.0
+
+  # Localization
+  intl: ^0.20.0
+
+  # Simple prefs
+  shared_preferences: ^2.3.0
+
+  # UI utilities
+  cached_network_image: ^3.3.1
+
+  # HealthKit / Google Health Connect
+  health: ^13.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.11
+  riverpod_generator: ^2.4.3
+  custom_lint: ^0.7.6
+  riverpod_lint: ^2.6.4
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/fonts/
+    - assets/images/
+
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Cairo-SemiBold.ttf
+          weight: 600
+
+flutter_launcher_icons:
+  android: false
+  ios: true
+
+  image_path: "assets/images/Yameenk_icon.jpeg"
+  min_sdk_android: 21
+  remove_alpha_ios: true
+

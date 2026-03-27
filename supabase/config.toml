@@ -1,0 +1,24 @@
+
+[functions.chat]
+enabled = true
+verify_jwt = true
+import_map = "./functions/chat/deno.json"
+entrypoint = "./functions/chat/index.ts"
+
+[functions.analyze-reading]
+enabled = true
+verify_jwt = true
+import_map = "./functions/analyze-reading/deno.json"
+entrypoint = "./functions/analyze-reading/index.ts"
+
+[functions.generate-report]
+enabled = true
+verify_jwt = true
+import_map = "./functions/generate-report/deno.json"
+entrypoint = "./functions/generate-report/index.ts"
+
+[functions.calibrate-thresholds]
+enabled = true
+verify_jwt = true
+import_map = "./functions/calibrate-thresholds/deno.json"
+entrypoint = "./functions/calibrate-thresholds/index.ts"
